@@ -1,0 +1,21 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.homepage {
+    justify-content: center;
+    background-color: $peach;
+
+    &__logo {
+        margin-bottom: 1rem;
+    }
+
+    &__tagline {
+        margin-bottom: 2rem;
+        color: $tangerine;
+    }
+
+    &__button {
+        margin-bottom: 1rem;
+    }
+}

@@ -1,4 +1,4 @@
-import './App.css'
+import './App.scss'
 import { useState } from 'react'
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import HomePage from './pages/HomePage/HomePage';
