@@ -1,33 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react'
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import HomePage from './pages/HomePage/HomePage';
+import CreateAccount from './pages/CreateAccount/CreateAccount';
+import Guide from './pages/Guide/Guide';
+import UserLogin from './pages/UserLogin/UserLogin';
+import NameGoals from './pages/NameGoals/NameGoals';
+import SetGoal from './pages/SetGoal/SetGoal';
+import SetHabit from './pages/SetHabit/SetHabit';
+import SetReward from './pages/SetReward/SetReward';
+import UserDashboard from './pages/UserDashboard/UserDashboard';
+import UserGoals from './pages/UserGoals/UserGoals';
+import UserHabits from './pages/UserHabits/UserHabits';
+
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<UserLogin />} />
+          <Route path="/signup" element={<CreateAccount/>}/>
+          <Route path="/guide" element={<Guide />} />
+          <Route path="/first-goal" element={<NameGoals />} />
+          <Route path="/set-goal" element={<SetGoal />} />
+          <Route path="/set-habit" element={<SetHabit />} />
+          <Route path="/set-reward" element={<SetReward />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/goals" element={<UserGoals />} />
+          <Route path="/goal/:goalId" element={<UserHabits />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
