@@ -23,56 +23,63 @@ function SignupForm() {
     confirm: "",
   });
 
-  const validate = () => {
+  const validate = (field) => {
     let valid = true;
-    let errors = {}; // Reset the errors object
+    let errors = {}; // Reset errors
   
-    // Name validation
-    if (!formData.name) {
-      errors.name = 'Name is required';
-      valid = false;
-    }
-  
-    // Email validation
-    if (!formData.email) {
-      errors.email = 'Email is required';
-      valid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Please enter a valid email address';
-      valid = false;
-    }
-  
-    // Password validation
-    if (!formData.password) {
-      errors.password = 'Password is required';}
-      else if (formData.password.length < 6) {
-        errors.password = 'Passwords need to be at least 6 characters';}
+    // Only validate the specified field, or validate all if none is passed
+    if (!field || field === "name") {
+      if (!formData.name) {
+        errors.name = 'Name is required';
+        valid = false;
       }
-      valid = false;
     }
   
-    // Confirm password validation
-    if (!formData.confirm) {
-      errors.confirm = 'Please confirm your password';
-      valid = false;
-    } else if (formData.password !== formData.confirm) {
-      errors.confirm = 'Passwords do not match';
-      valid = false;
+    if (!field || field === "email") {
+      if (!formData.email) {
+        errors.email = 'Email is required';
+        valid = false;
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        errors.email = 'Please enter a valid email address';
+        valid = false;
+      }
     }
   
-    setErrors(errors); // Set errors only for fields with issues
-    return valid; // Return whether the form is valid
+    if (!field || field === "password") {
+      if (!formData.password) {
+        errors.password = 'Password is required';
+        valid = false;
+      } else if (formData.password.length < 6) {
+        errors.password = 'Password must be at least 6 characters';
+        valid = false;
+      }
+    }
+  
+    if (!field || field === "confirm") {
+      if (!formData.confirm) {
+        errors.confirm = 'Please confirm your password';
+        valid = false;
+      } else if (formData.password !== formData.confirm) {
+        errors.confirm = 'Passwords do not match';
+        valid = false;
+      }
+    }
+  
+    setErrors(errors); // Set errors only for affected fields
+    return valid;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData(prevState => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
+    validate(); 
   };
 
-  //Handle Submit Function
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -88,6 +95,7 @@ function SignupForm() {
         console.log("Signed up successfully!");
         const token = response.data.token;
         localStorage.setItem("authToken", token);
+
         setFormData({
           name: "",
           email: "",
@@ -141,8 +149,10 @@ function SignupForm() {
           className={`signup__input ${errors.password ? "input--error" : "signup__input--valid"}`}
           type="password"
           placeholder="password"
-          name="pasword"
+          name="password"
           id="password"
+          value={formData.password}
+          onChange={handleChange}
         ></input>
         {errors.password && (
           <span className="signup__error">{errors.password}</span>
@@ -158,6 +168,8 @@ function SignupForm() {
           type="password"
           name="confirm"
           placeholder="password"
+          value={formData.confirm}
+          onChange={handleChange}
         ></input>
         {errors.confirm && (
           <span className="signup__error">{errors.confirm}</span>

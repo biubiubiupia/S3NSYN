@@ -1,0 +1,15 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.login {
+    background-color: $banane;
+
+    &__logo {
+        align-self: flex-end;
+    }
+
+    &__header {
+        align-self: flex-start;
+    }
+}

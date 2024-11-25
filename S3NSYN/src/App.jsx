@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from './pages/HomePage/HomePage';
 import Signup from './pages/Signup/Signup';
 import Guide from './pages/Guide/Guide';
-import UserLogin from './pages/UserLogin/UserLogin';
+import Login from './pages/Login/Login';
 import NameGoals from './pages/NameGoals/NameGoals';
 import SetGoal from './pages/SetGoal/SetGoal';
 import SetHabit from './pages/SetHabit/SetHabit';
@@ -20,7 +20,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<UserLogin />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/guide" element={<Guide />} />
           <Route path="/first-goal" element={<NameGoals />} />
