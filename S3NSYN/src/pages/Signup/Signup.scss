@@ -3,5 +3,13 @@
 @use "../../styles/partials/mixins" as *;
 
 .signup {
-    
+    background-color: $banane;
+
+    &__logo {
+        align-self: flex-end;
+    }
+
+    &__header {
+        align-self: flex-start;
+    }
 }

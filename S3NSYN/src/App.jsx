@@ -1,8 +1,8 @@
 import './App.scss'
 import { useState } from 'react'
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from './pages/HomePage/HomePage';
-import CreateAccount from './pages/CreateAccount/CreateAccount';
+import Signup from './pages/Signup/Signup';
 import Guide from './pages/Guide/Guide';
 import UserLogin from './pages/UserLogin/UserLogin';
 import NameGoals from './pages/NameGoals/NameGoals';
@@ -13,8 +13,6 @@ import UserDashboard from './pages/UserDashboard/UserDashboard';
 import UserGoals from './pages/UserGoals/UserGoals';
 import UserHabits from './pages/UserHabits/UserHabits';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
-
 function App() {
 
   return (
@@ -23,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<UserLogin />} />
-          <Route path="/signup" element={<CreateAccount/>}/>
+          <Route path="/signup" element={<Signup/>}/>
           <Route path="/guide" element={<Guide />} />
           <Route path="/first-goal" element={<NameGoals />} />
           <Route path="/set-goal" element={<SetGoal />} />
