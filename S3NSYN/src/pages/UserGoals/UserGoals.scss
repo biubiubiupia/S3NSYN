@@ -1,0 +1,26 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.goals {
+    background-color: $banane;
+
+    &__top {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__add {
+        background-color: $berry;
+    }
+
+    &__group{
+        width: 100%;
+    }
+
+    &__name {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}

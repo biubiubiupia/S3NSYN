@@ -101,6 +101,14 @@ p {
   color: $banane;
 }
 
+.button-mini {
+  @extend .button;
+  width: 4rem;
+  height: 3rem;
+  background-color: $tangerine;
+  color: $banane;
+}
+
 .page {
   padding: 4rem 2rem;
   min-height: 100vh;

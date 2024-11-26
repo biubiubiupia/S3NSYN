@@ -5,26 +5,45 @@ import axios from "axios";
 import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
+// const [startDate, setStartDate] = useState(new Date());
+
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function SetGoal() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { selectedGoal } = location.state;
-  const goal = selectedGoal.goal;
+  const selectedGoal = location.state?.selectedGoal;
+  const goal = selectedGoal?.goal || "Define Your Goal";
 
-  // const [startDate, setStartDate] = useState(new Date());
+  const token = localStorage.getItem("authToken");
 
-  const handleNext = async () => {
-    // const formData = {
-    //   title: e.target.name.value,
-    //   description: e.target.why.value,
-    //   password: e.target.confirm.value,
-    // };
+  console.log(token)
 
-    // await axios.post(`${BASE_URL}/set-goal`, formData);
-    navigate("/set-reward");
+  const handleSubmit = async (e) => {
+    e.preventDefault;
+
+    const formData = {
+      title: e.target.name.value,
+      description: e.target.why.value,
+      start: Date.now(),
+      end: Date.now(),
+    };
+
+    try {
+      const response = await axios.post(`${BASE_URL}/goals`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert("Goal created:", response.data);
+      navigate("/set-reward");
+    } catch (error) {
+      alert("Error signing up", error);
+    }
   };
+
+  console.log(`${BASE_URL}/goals`)
 
   return (
     <main className="page set-goal">
@@ -34,7 +53,8 @@ function SetGoal() {
         alt="S3NSYN logo"
       ></img>
       <h1 className="set-goal__header page__header">set your goal.</h1>
-      <form className="set-goal__form">
+
+      <form className="set-goal__form" onSubmit={handleSubmit}>
         <div className="set-goal__group">
           <input
             className="set-goal__name"
@@ -61,10 +81,6 @@ function SetGoal() {
             <option value="tomorrow">Tomorrow</option>
             <option value="custom">Custom</option>
           </select>
-          {/* {selectedOption === "custom" && (
-        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} className="set-goal__datepicker"
-        />
-      )} */}
         </div>
         <div className="set-goal__group">
           <label className="label set-goal__label" htmlFor="timeframe">
@@ -89,13 +105,10 @@ function SetGoal() {
             </select>
           </div>
         </div>
+        <button className="button button-dark set-goal__button" type="submit">
+          Next Step
+        </button>
       </form>
-      <button
-        className="button button-dark set-goal__button"
-        onClick={handleNext}
-      >
-        Next Step
-      </button>
     </main>
   );
 }

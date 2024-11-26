@@ -1,16 +1,8 @@
 @use "../../styles/partials/variables" as *;
 @use "../../styles/partials/mixins" as *;
 
-.set-goal {
+.edit-goal {
   background-color: $peach;
-
-  &__logo {
-    align-self: flex-end;
-  }
-
-  &__header {
-    align-self: flex-start;
-  }
 
   &__form {
     margin-bottom: 2rem;
@@ -41,7 +33,10 @@
     width: 10rem;
   }
 
-  &__button{
-    align-self: center;
+  &__buttons {
+    width: 100%;
+    gap: 1rem;
+    display: flex;
+    justify-content: center;
   }
 }

@@ -11,6 +11,7 @@ import SetReward from './pages/SetReward/SetReward';
 import UserDashboard from './pages/UserDashboard/UserDashboard';
 import UserGoals from './pages/UserGoals/UserGoals';
 import UserHabits from './pages/UserHabits/UserHabits';
+import EditGoal from './pages/EditGoal/EditGoal';
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/set-reward" element={<SetReward defaultRewards={defaultGoals} />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/goals" element={<UserGoals />} />
+          <Route path="/edit-goal" element={<EditGoal/>} />
           <Route path="/goal/:goalId" element={<UserHabits />} />
         </Routes>
       </BrowserRouter>
