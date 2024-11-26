@@ -1,0 +1,20 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.guide {
+    background-color: $berry;
+
+    &__logo {
+        align-self: flex-end;
+    }
+
+    &__header {
+        align-self: flex-start;
+    }
+
+    &__text {
+        color: $banane;
+        margin-bottom: 1rem;
+    }
+}

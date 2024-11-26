@@ -18,7 +18,7 @@ function Login() {
   return (
     <main className="page login">
       <img className="logo-top login__logo" src={logoDark} alt="S3NSYN logo"></img>
-      <h1 className="login__header">log in your account.</h1>
+      <h1 className="login__header">log in here.</h1>
       <LoginForm/>
     </main>
   );

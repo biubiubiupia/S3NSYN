@@ -1,5 +1,4 @@
 import './App.scss'
-import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from './pages/HomePage/HomePage';
 import Signup from './pages/Signup/Signup';
@@ -15,6 +14,13 @@ import UserHabits from './pages/UserHabits/UserHabits';
 
 function App() {
 
+  const defaultGoals = [
+    { id: 1, goal: "Go to Bed Early" },
+    { id: 2, goal: "Read 10 Books" },
+    { id: 3, goal: "Build a Fitness Routine" },
+    { id: 4, goal: "Customize My Goal" },
+  ];
+
   return (
     <>
       <BrowserRouter>
@@ -23,10 +29,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/guide" element={<Guide />} />
-          <Route path="/first-goal" element={<NameGoals />} />
-          <Route path="/set-goal" element={<SetGoal />} />
+          <Route path="/first-goal" element={<NameGoals defaultGoals={defaultGoals} />} />
+          <Route path="/set-goal" element={<SetGoal defaultGoals={defaultGoals} />} />
           <Route path="/set-habit" element={<SetHabit />} />
-          <Route path="/set-reward" element={<SetReward />} />
+          <Route path="/set-reward" element={<SetReward defaultRewards={defaultGoals} />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/goals" element={<UserGoals />} />
           <Route path="/goal/:goalId" element={<UserHabits />} />
