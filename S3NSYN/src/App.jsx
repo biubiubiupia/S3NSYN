@@ -33,7 +33,7 @@ function App() {
           <Route path="/set-habit" element={<SetHabit />} />
           <Route path="/set-reward" element={<SetReward />} />
           <Route path="/dashboard" element={<UserDashboard />} />
-          <Route path="/goals" element={<UserGoals />} />
+          <Route path="/goals" element={<UserGoals  />} />
           <Route path="/goal/:goalId/edit" element={<EditGoal />} />
           <Route path="/goal/:goalId" element={<UserHabits />} />
         </Routes>

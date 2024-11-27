@@ -9,9 +9,7 @@ let token = localStorage.getItem("authToken");
 function SetReward() {
   const location = useLocation();
   const goalId = location.state?.goalId;
-
   const navigate = useNavigate();
-
   const [selected, setSelected] = useState(null);
 
   const defaultRewards = [
@@ -25,12 +23,12 @@ function SetReward() {
     setSelected((prev) => (prev === id ? null : id));
   };
 
+  const selectedReward = defaultRewards.find(
+    (reward) => reward.id === selected
+  );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const selectedReward = defaultRewards.find(
-      (reward) => reward.id === selected
-    );
 
     if (selectedReward) {
       const reqBody = {
@@ -38,6 +36,8 @@ function SetReward() {
         description: e.target.title.value,
         goal_id: goalId,
       };
+
+      console.log(reqBody)
 
       try {
         await axios.post(`${BASE_URL}/rewards`, reqBody, {
@@ -54,10 +54,6 @@ function SetReward() {
       alert("Please define a reward before proceeding.");
     }
   };
-
-  const selectedReward = defaultRewards.find(
-    (reward) => reward.id === selected
-  );
 
   return (
     <main className="page reward">

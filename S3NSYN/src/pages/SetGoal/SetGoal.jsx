@@ -14,7 +14,7 @@ function SetGoal() {
 
   const location = useLocation();
   const selectedGoal = location.state?.selectedGoal;
-  const goal = selectedGoal?.title || "Define Your Goal";
+  const goal = selectedGoal?.title;
 
   const token = localStorage.getItem("authToken");
 
@@ -61,7 +61,7 @@ function SetGoal() {
             className="set-goal__name"
             name="name"
             id="name"
-            placeholder={goal === "Customize Goal" ? goal : undefined}
+            placeholder={goal? (goal === "Customize Goal" ? goal : undefined) : ("Enter Your Goal")}
             defaultValue={goal !== "Customize Goal" ? goal : undefined}
           ></input>
         </div>
