@@ -3,11 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
 
-function NameGoals({ defaultGoals }) {
+function NameGoals() {
 
   const navigate = useNavigate();
 
   const [selected, setSelected] = useState(null);
+
+  const defaultGoals = [
+    {id: 1, title: "Get Fit" },
+    {id: 2, title: "Grow Career" },
+    {id: 3, title: "Early Bedtime" },
+    {id: 4, title: "Customize Goal" },
+  ]
 
   const handleSelect = (id) => {
     setSelected((prev) => (prev === id ? null : id));
@@ -38,7 +45,7 @@ function NameGoals({ defaultGoals }) {
             }`}
             onClick={() => handleSelect(goal.id)}
           >
-            {goal.goal}
+            {goal.title}
           </button>
         ))}
       </div>

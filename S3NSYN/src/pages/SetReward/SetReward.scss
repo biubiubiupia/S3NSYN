@@ -20,6 +20,7 @@
     @extend .button;
     width: 100%;
     margin-bottom: 1rem;
+    background-color: $banane;
 
     &--active {
       @extend .button;
@@ -38,5 +39,9 @@
 
   &__textarea {
     height: 10rem;
+  }
+
+  &__button {
+    align-self: center;
   }
 }

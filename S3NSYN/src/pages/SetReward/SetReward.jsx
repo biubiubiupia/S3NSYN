@@ -1,30 +1,55 @@
 import "./SetReward.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
+let BASE_URL = import.meta.env.VITE_API_URL;
+let token = localStorage.getItem("authToken");
 
 function SetReward() {
-  const defaultRewards = [
-    { id: 1, reward: "Buy a Birkin" },
-    { id: 2, reward: "Go to TS Concert" },
-    { id: 3, reward: "Eat a Whole Pizza Pie" },
-    { id: 4, reward: "Customize My Reward" },
-  ];
+  const location = useLocation();
+  const goalId = location.state?.goalId;
 
   const navigate = useNavigate();
 
   const [selected, setSelected] = useState(null);
 
+  const defaultRewards = [
+    { id: 1, reward: "Buy a Birkin" },
+    { id: 2, reward: "Go to TS Concert" },
+    { id: 3, reward: "Eat a Whole Pizza Pie" },
+    { id: 4, reward: "Customize Reward" },
+  ];
+
   const handleSelect = (id) => {
     setSelected((prev) => (prev === id ? null : id));
   };
 
-  const handleNext = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const selectedReward = defaultRewards.find(
       (reward) => reward.id === selected
     );
+
     if (selectedReward) {
-      navigate("/set-habit");
+      const reqBody = {
+        title: e.target.title.value,
+        description: e.target.title.value,
+        goal_id: goalId,
+      };
+
+      try {
+        await axios.post(`${BASE_URL}/rewards`, reqBody, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        navigate("/set-habit", { state: { goalId } });
+      } catch (error) {
+        console.error("Error setting the reward", error);
+      }
     } else {
       alert("Please define a reward before proceeding.");
     }
@@ -60,33 +85,48 @@ function SetReward() {
           </button>
         ))}
       </div>
+
       {selected && (
         <div>
-          <form className="reward__form">
+          <form className="reward__form" onSubmit={handleSubmit}>
             <div className="reward__group">
-              <label>Your reward:</label>
-              {selectedReward ? (
-                <input placeholder={selectedReward.reward} />
-              ) : (
-                <input placeholder="Enter your reward" />
-              )}
+              <label className="reward__label" htmlFor="title">
+                Your reward:
+              </label>
+              <input
+                className="reward__input"
+                name="title"
+                id="title"
+                placeholder={
+                  selectedReward.reward === "Customize Reward"
+                    ? selectedReward.reward
+                    : undefined
+                }
+                defaultValue={
+                  selectedReward.reward !== "Customize Reward"
+                    ? selectedReward.reward
+                    : undefined
+                }
+              />
             </div>
             <div className="reward__group">
-              <label className="reward__label">
+              <label className="reward__label" htmlFor="description">
                 Imagine the moment when you achieve your goal and enjoy your
                 reward:
               </label>
-            <textarea
-              className="reward__textarea"
-              placeholder="Describe your feelings here..."
-            ></textarea>
+              <textarea
+                className="reward__textarea"
+                name="description"
+                id="description"
+                placeholder="Describe your feelings here..."
+              ></textarea>
             </div>
+            <button className="button-dark reward__button" type="submit">
+              Next Step
+            </button>
           </form>
         </div>
       )}
-      <button className="button-dark reward__button" onClick={handleNext}>
-        Next Step
-      </button>
     </main>
   );
 }

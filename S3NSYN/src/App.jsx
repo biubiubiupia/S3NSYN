@@ -1,5 +1,7 @@
 import './App.scss'
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState, useEffect} from 'react';
+import axios from "axios";
 import HomePage from './pages/HomePage/HomePage';
 import Signup from './pages/Signup/Signup';
 import Guide from './pages/Guide/Guide';
@@ -13,30 +15,26 @@ import UserGoals from './pages/UserGoals/UserGoals';
 import UserHabits from './pages/UserHabits/UserHabits';
 import EditGoal from './pages/EditGoal/EditGoal';
 
-function App() {
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-  const defaultGoals = [
-    { id: 1, goal: "Go to Bed Early" },
-    { id: 2, goal: "Read 10 Books" },
-    { id: 3, goal: "Build a Fitness Routine" },
-    { id: 4, goal: "Customize My Goal" },
-  ];
+function App() {
 
   return (
     <>
       <BrowserRouter>
+      
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup/>}/>
           <Route path="/guide" element={<Guide />} />
-          <Route path="/first-goal" element={<NameGoals defaultGoals={defaultGoals} />} />
-          <Route path="/set-goal" element={<SetGoal defaultGoals={defaultGoals} />} />
+          <Route path="/first-goal" element={<NameGoals/>} />
+          <Route path="/set-goal" element={<SetGoal />} />
           <Route path="/set-habit" element={<SetHabit />} />
-          <Route path="/set-reward" element={<SetReward defaultRewards={defaultGoals} />} />
+          <Route path="/set-reward" element={<SetReward />} />
           <Route path="/dashboard" element={<UserDashboard />} />
           <Route path="/goals" element={<UserGoals />} />
-          <Route path="/edit-goal" element={<EditGoal/>} />
+          <Route path="/goal/:goalId/edit" element={<EditGoal />} />
           <Route path="/goal/:goalId" element={<UserHabits />} />
         </Routes>
       </BrowserRouter>

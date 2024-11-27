@@ -14,36 +14,37 @@ function SetGoal() {
 
   const location = useLocation();
   const selectedGoal = location.state?.selectedGoal;
-  const goal = selectedGoal?.goal || "Define Your Goal";
+  const goal = selectedGoal?.title || "Define Your Goal";
 
   const token = localStorage.getItem("authToken");
 
-  console.log(token)
-
   const handleSubmit = async (e) => {
-    e.preventDefault;
+    e.preventDefault();
 
-    const formData = {
+    const reqBody = {
       title: e.target.name.value,
       description: e.target.why.value,
-      start: Date.now(),
-      end: Date.now(),
+      start_time: Date.now(),
+      end_time: Date.now(),
     };
 
+    console.log(reqBody)
+
     try {
-      const response = await axios.post(`${BASE_URL}/goals`, formData, {
+      const response = await axios.post(`${BASE_URL}/goals`, reqBody, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
-      alert("Goal created:", response.data);
-      navigate("/set-reward");
+
+      const goalId = response.data.id;
+
+      navigate("/set-reward", { state: { goalId } });
     } catch (error) {
-      alert("Error signing up", error);
+      alert("Error sending form", error);
     }
   };
-
-  console.log(`${BASE_URL}/goals`)
 
   return (
     <main className="page set-goal">
@@ -60,7 +61,8 @@ function SetGoal() {
             className="set-goal__name"
             name="name"
             id="name"
-            placeholder={goal}
+            placeholder={goal === "Customize Goal" ? goal : undefined}
+            defaultValue={goal !== "Customize Goal" ? goal : undefined}
           ></input>
         </div>
         <div className="set-goal__group">
