@@ -10,6 +10,10 @@
   padding: 0;
 }
 
+section{
+  width: 100%;
+}
+
 body,
 input,
 textarea,
@@ -105,7 +109,7 @@ p {
   @extend .button;
   width: 4rem;
   height: 3rem;
-  background-color: $tangerine;
+  background-color: $berry;
   color: $banane;
 }
 

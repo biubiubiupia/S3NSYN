@@ -1,6 +1,7 @@
 import "./UserHabits.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
+import RewardProgress from "../../components/RewardProgress/RewardProgress";
 
 function UserHabits() {
   const navigate = useNavigate();
@@ -30,6 +31,10 @@ function UserHabits() {
     { id: 4, habit: "Brush hair 50 times" },
   ];
 
+  const rewardList = [
+    { id: 1, title: "Buy a Birkin", points: 999 },
+  ];
+
   return (
     <main className="page habits">
       <img
@@ -57,9 +62,10 @@ function UserHabits() {
           </button>
         ))}
       </div>
-      <div>
-        <h2>reward progress.</h2>
-      </div>
+      <section className="habits__section">
+        <h1 className="page__header habits__header">reward progress.</h1>
+        <RewardProgress rewardList={rewardList}></RewardProgress>
+      </section>
     </main>
   );
 }

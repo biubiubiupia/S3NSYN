@@ -1,0 +1,58 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/global" as *;
+
+.reward {
+  &__list {
+    list-style: none;
+  }
+
+  &__box {
+    @extend .button;
+    width: 100%;
+    height: 5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 3.125rem;
+    background-color: $peach;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    color: $banane;
+    font-weight: 800;
+    margin-left: 10%;
+  }
+
+  &__progress {
+    align-self:flex-end;
+  }
+}
+
+// Example: Customizing the CircularProgressbar styles in your SCSS
+.CircularProgressbar {
+  width: 12rem; // Custom width
+  height: 12rem; // Custom height
+}
+
+.CircularProgressbar .CircularProgressbar-path {
+  stroke: $tangerine; // Change the progress color
+  stroke-width: 0.6rem; // Change the stroke width
+  background-color: $berry;
+}
+
+.CircularProgressbar .CircularProgressbar-trail {
+  stroke: $peach; // Modify the trail color
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+  font-size: 1.5rem; // Adjust text size
+  fill: $banane; // Change text color
+}
+
+.CircularProgressbar.CircularProgressbar-inverted
+  .CircularProgressbar-background {
+  fill: $tangerine; // Modify background in inverted mode
+}
