@@ -10,10 +10,10 @@ function SetHabit() {
   const [selected, setSelected] = useState(null);
 
   const defaultHabits = [
-    { id: 1, habit: "Buy a Birkin" },
-    { id: 2, habit: "Go to TS Concert" },
-    { id: 3, habit: "Eat a Whole Pizza Pie" },
-    { id: 4, habit: "Customize Habit" },
+    { id: 1, habit: "Write for 15 mins" },
+    { id: 2, habit: "Meditate for 10 mins" },
+    { id: 3, habit: "Vacuum the floor" },
+    { id: 4, habit: "Brush hair 50 times" },
   ];
 
   const handleSelect = (id) => {
@@ -48,81 +48,79 @@ function SetHabit() {
       </div>
 
       {selected && (
-        <div>
-          <form className="habit__form">
-            <div className="habit__group">
-              <label className="habit__label" htmlFor="title">
-                Your habit:
-              </label>
+        <form className="habit__form">
+          <div className="habit__group">
+            <label className="habit__label" htmlFor="title">
+              Your habit:
+            </label>
+            <input
+              className="habit__input"
+              name="title"
+              id="title"
+              placeholder={
+                selectedHabit.habit === "Customize Habit"
+                  ? selectedHabit.habit
+                  : undefined
+              }
+              defaultValue={
+                selectedHabit.habit !== "Customize Habit"
+                  ? selectedHabit.habit
+                  : undefined
+              }
+            />
+          </div>
+          <div className="habit__group">
+            <label className="habit__label" htmlFor="description">
+              how often?
+            </label>
+            <div className="habit__frequency">
+              <select>
+                <option value="once">Once</option>
+                <option value="twice">Twice</option>
+                <option value="thrice">Thrice</option>
+              </select>
+              <select>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </div>
+          </div>
+          <div className="habit__group">
+            <label className="habit__label" htmlFor="description">
+              when?
+            </label>
+            <div className="habit__time">
               <input
-                className="habit__input"
-                name="title"
-                id="title"
-                placeholder={
-                  selectedHabit.habit === "Customize Habit"
-                    ? selectedHabit.habit
-                    : undefined
-                }
-                defaultValue={
-                  selectedHabit.habit !== "Customize Habit"
-                    ? selectedHabit.habit
-                    : undefined
-                }
-              />
+                className="habit__digit"
+                type="number"
+                placeholder="3"
+                min="1"
+                max="12"
+              ></input>
+              <p className="habit__colon">:</p>
+              <input
+                className="habit__digit"
+                type="number"
+                placeholder="33"
+                min="00"
+                max="59"
+              ></input>
+              <select className="habit__ampm">
+                <option value="am">AM</option>
+                <option value="pm">PM</option>
+              </select>
             </div>
-            <div className="habit__group">
-              <label className="habit__label" htmlFor="description">
-                how often?
-              </label>
-              <div className="habit__frequency">
-                <select>
-                  <option value="once">Once</option>
-                  <option value="twice">Twice</option>
-                  <option value="thrice">Thrice</option>
-                </select>
-                <select>
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                </select>
-              </div>
-            </div>
-            <div className="habit__group">
-              <label className="habit__label" htmlFor="description">
-                when?
-              </label>
-              <div className="habit__time">
-                <input
-                  className="habit__digit"
-                  type="number"
-                  placeholder="3"
-                  min="1"
-                  max="12"
-                ></input>
-                <p className="habit__colon">:</p>
-                <input
-                  className="habit__digit"
-                  type="number"
-                  placeholder="33"
-                  min="00"
-                  max="59"
-                ></input>
-                <select className="habit__ampm">
-                  <option value="am">AM</option>
-                  <option value="pm">PM</option>
-                </select>
-              </div>
-            </div>
-            <div className="habit__buttons">
-              <button className="button-mini habit__button" type="submit">
-                Save & Add
-              </button>
-              <button className="button-mini habit__button" type="submit">
-                Save & Back to Goals
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div className="habit__buttons">
+            <button className="button-mini habit__button" type="submit">
+              Save & Add
+            </button>
+            <button className="button-mini habit__button" type="submit">
+              Save & Back to Goals
+            </button>
+          </div>
+        </form>
       )}
     </main>
   );

@@ -34,9 +34,13 @@
   }
 
   &__buttons {
-    width: 100%;
-    gap: 1rem;
     display: flex;
-    justify-content: center;
+    gap: 1rem;
+  }
+
+  &__delete{
+    height: 5rem;
+    width: 8rem;
+    background-color: $berry;
   }
 }

@@ -30,10 +30,6 @@ function EditGoal() {
     getGoal();
   }, []);
   
-  console.log(goal)
-
-  // console.log(goal.start-time)
-
   const handleSave = () => {
     navigate("/goals");
   };
@@ -117,13 +113,13 @@ function EditGoal() {
           </div>
           <div className="edit-goal__buttons">
             <button
-              className="button button-dark edit-goal__button"
+              className="button button-dark edit-goal__save"
               type="submit"
             >
               Save Changes
             </button>
             <button
-              className="button button-dark edit-goal__button"
+              className="button button-mini edit-goal__delete"
               onClick={handleDelete}
             >
               Delete

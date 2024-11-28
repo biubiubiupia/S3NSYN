@@ -4,11 +4,16 @@
 .goals {
     background-color: $banane;
 
+    &__header{
+        margin: 0;
+    }
+
     &__top {
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 1rem;
     }
 
     &__add {
@@ -17,10 +22,13 @@
 
     &__group{
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    &__name {
-        width: 100%;
-        margin-bottom: 1rem;
+    &__name{
+    margin-bottom: 1rem;
+    width: 100%;
     }
 }

@@ -40,12 +40,11 @@ function UserGoals() {
         alt="S3NSYN logo"
       ></img>
       <div className="goals__top">
-        <h1 className="goals__header page__header">all your goals.</h1>
+        <h1 className="goals__header page__header">your goals.</h1>
         <button className="button-mini goals__add" onClick={handleAdd}>
           ADD
         </button>
       </div>
-      <div className="goals__list">
         {!goals ? (
           <div>Loading data...</div>
         ) : (
@@ -53,10 +52,10 @@ function UserGoals() {
             {goals.map((goal) => (
               <button
                 key={goal.id}
-                className="button-dark goals__name"
+                className="goals__name button-dark "
                 onClick={() => {
-                  console.log("Navigating to edit page with state:", { data: goals });
-                  navigate(`/goal/${goal.id}/edit`);
+                  console.log("Navigating to edit page with state:", );
+                  navigate(`/goal/${goal.id}`, {state : {goal}});
                 }}
               >
                 {goal.title}
@@ -64,7 +63,6 @@ function UserGoals() {
             ))}
           </div>
         )}
-      </div>
     </main>
   );
 }

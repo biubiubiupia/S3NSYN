@@ -14,6 +14,7 @@ import UserDashboard from './pages/UserDashboard/UserDashboard';
 import UserGoals from './pages/UserGoals/UserGoals';
 import UserHabits from './pages/UserHabits/UserHabits';
 import EditGoal from './pages/EditGoal/EditGoal';
+import EditHabit from './pages/EditHabit/EditHabit';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/goals" element={<UserGoals  />} />
           <Route path="/goal/:goalId/edit" element={<EditGoal />} />
           <Route path="/goal/:goalId" element={<UserHabits />} />
+          <Route path="/habit/:habitId/edit" element={<EditHabit />} />
         </Routes>
       </BrowserRouter>
     </>

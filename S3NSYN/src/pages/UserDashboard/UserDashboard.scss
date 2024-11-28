@@ -2,6 +2,96 @@
 @use "../../styles/partials/mixins" as *;
 
 .dashboard {
-    background-color: $banane;
+  background-color: $banane;
 
+  &__list {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__habit {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 1.875rem;
+    display: flex;
+    flex-direction: column;
+    padding: 0.8rem;
+    align-items: center;
+
+    &--past {
+      background-color: $tangerine;
+    }
+
+    &--due {
+      background-color: $kiwi;
+    }
+
+    &--done {
+      height: 4rem;
+      flex-direction: row;
+      background-color: $peach;
+    }
+  }
+
+  &__habit-text {
+    color: $banane;
+  }
+
+  &__checkbox {
+    align-self: flex-end;
+  }
+}
+
+.checkbox {
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+  }
+
+  &__input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+
+    &:checked + .checkbox__span {
+      background-color: $berry;
+      height: 0.75rem;
+      width: 0.75rem;
+
+      &::after {
+        display: block;
+      }
+    }
+  }
+
+  &__span {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: $banane;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.5s;
+
+    &::after {
+      content: "";
+      width: .75rem;
+      height: .75rem;
+      background-color: $berry;
+      border-radius: 2px;
+      display: none;
+    }
+
+    &:hover {
+      background-color: $berry;
+    }
+  }
 }
