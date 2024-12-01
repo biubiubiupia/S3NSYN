@@ -2,6 +2,7 @@ import "./SetHabit.scss";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
+import HeaderBack from "../../components/HeaderBack/HeaderBack";
 
 function SetHabit() {
   const location = useLocation();
@@ -26,11 +27,7 @@ function SetHabit() {
 
   return (
     <main className="page habit">
-      <img
-        className="logo-top habit__logo"
-        src={logoDark}
-        alt="S3NSYN logo"
-      ></img>
+      <HeaderBack></HeaderBack>
       <h1 className="habit__header page__header">let's get specific.</h1>
 
       <div className={`${selected ? "habit__group--hidden" : "habit__group"}`}>
@@ -113,11 +110,11 @@ function SetHabit() {
             </div>
           </div>
           <div className="habit__buttons">
-            <button className="button-mini habit__button" type="submit">
-              Save & Add
+            <button className="button-dark habit__button" type="submit">
+              Save
             </button>
-            <button className="button-mini habit__button" type="submit">
-              Save & Back to Goals
+            <button className="button-dark habit__button" type="submit">
+              Add
             </button>
           </div>
         </form>

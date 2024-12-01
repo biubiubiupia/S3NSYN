@@ -2,6 +2,7 @@ import "./UserHabits.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
 import RewardProgress from "../../components/RewardProgress/RewardProgress";
+import HeaderBack from "../../components/HeaderBack/HeaderBack";
 
 function UserHabits() {
   const navigate = useNavigate();
@@ -37,18 +38,14 @@ function UserHabits() {
 
   return (
     <main className="page habits">
-      <img
-        className="logo-top habits__logo"
-        src={logoDark}
-        alt="S3NSYN logo"
-      ></img>
+     <HeaderBack backto={"/goals"}/>
       <div className="habits__top">
         <h1 className="habits__header page__header">build good habits.</h1>
         <button
           className="button-mini habits__edit"
           onClick={() => navigate(`/goal/${goalId}/edit`)}
         >
-          Edit
+          EDIT
         </button>
       </div>
       <div className="habits__group"> 

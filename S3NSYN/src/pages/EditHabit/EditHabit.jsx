@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
+import HeaderBack from "../../components/HeaderBack/HeaderBack";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -19,11 +20,7 @@ function EditHabit() {
 
   return (
     <main className="page habit">
-      <img
-        className="logo-top habit__logo"
-        src={logoDark}
-        alt="S3NSYN logo"
-      ></img>
+      <HeaderBack></HeaderBack>
       <h1 className="habit__header page__header">let's get specific.</h1>
 
       <form className="habit__form">

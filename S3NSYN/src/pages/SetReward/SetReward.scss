@@ -22,6 +22,11 @@
     margin-bottom: 1rem;
     background-color: $banane;
 
+    &:hover{
+      background-color: $tangerine;
+      color: $banane;
+    }
+
     &--active {
       @extend .button;
       width: 100%;

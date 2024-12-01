@@ -1,9 +1,9 @@
 import "./UserDashboard.scss";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
 import HabitList from "../../components/HabitList/HabitList";
 import RewardProgress from "../../components/RewardProgress/RewardProgress";
+import Header from "../../components/Header/Header";
 
 function UserDashboard() {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ function UserDashboard() {
     { id: 3, title: "Eat a Whole Pizza Pie", points: 500 },
   ];
 
-
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -22,17 +21,17 @@ function UserDashboard() {
     }
   }, [navigate]);
 
-
   return (
     <main className="page dashboard">
-      <img
-        className="logo-top dashboard__logo"
-        src={logoDark}
-        alt="S3NSYN logo"
-      ></img>
+      <Header />
       <div className="dashboard__top">
-        <h1 className="dashboard__header page__header">live your best life.</h1>
-        <button className="dashboard__view button-mini" onClick={()=> navigate("/goals")}>Goals</button>
+        <h1 className="page__title dashboard__title">live your best life.</h1>
+        <button
+          className="dashboard__view button-mini"
+          onClick={() => navigate("/goals")}
+        >
+          GOALS
+        </button>
       </div>
       <HabitList></HabitList>
       <section className="dashboard__reward dashboard__section ">

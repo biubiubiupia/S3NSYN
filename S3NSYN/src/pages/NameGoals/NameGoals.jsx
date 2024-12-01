@@ -1,7 +1,7 @@
 import "./NameGoals.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
+import HeaderBack from "../../components/HeaderBack/HeaderBack";
 
 function NameGoals() {
 
@@ -31,11 +31,7 @@ function NameGoals() {
 
   return (
     <main className="page goal">
-      <img
-        className="logo-top goal__logo"
-        src={logoDark}
-        alt="S3NSYN logo"
-      ></img>
+      <HeaderBack></HeaderBack>
       <h1 className="goal__header page__header">define your first goal.</h1>
       <div className="goal__group">
         {defaultGoals.map((goal) => (

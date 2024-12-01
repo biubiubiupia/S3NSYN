@@ -2,33 +2,37 @@
 @use "../../styles/partials/mixins" as *;
 
 .goals {
-    background-color: $banane;
+  background-color: $peach;
 
-    &__header{
-        margin: 0;
-    }
+  &__header {
+    margin: 0;
+  }
 
-    &__top {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
+  &__top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
 
-    &__add {
-        background-color: $berry;
-    }
+  &__add {
+    background-color: $berry;
+  }
 
-    &__group{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  &__group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    &__name{
+  &__name {
     margin-bottom: 1rem;
     width: 100%;
+
+    &:hover {
+      box-shadow: 5px 5px 5px $tangerine;
     }
+  }
 }

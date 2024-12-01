@@ -2,33 +2,38 @@
 @use "../../styles/partials/mixins" as *;
 
 .habits {
-    background-color: $banane;
+  background-color: $banane;
 
-    &__top {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
+  &__top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
 
-    &__header {
-        margin: 0; 
-    }
+  &__header {
+    margin: 0;
+  }
 
-    &__edit {
-        background-color: $berry;
-    }
+  &__edit {
+    background-color: $berry;
+  }
 
-    &__group{
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  &__group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    &__name {
-        width: 100%;
-        margin-bottom: 1rem;
+  &__name {
+    width: 100%;
+    margin-bottom: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $peach;
     }
+  }
 }

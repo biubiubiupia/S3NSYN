@@ -1,0 +1,236 @@
+import "./GoalForm.scss";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+function GoalForm({ editingGoal }) {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("authToken");
+  // For Set Goal/Add Goal
+  const location = useLocation();
+  const selectedGoal = location.state?.selectedGoal;
+  const goalTitle = selectedGoal?.title;
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [num, setNum] = useState(1);
+  const [timeframe, setTimeframe] = useState("day");
+  const [title, setTitle] = useState(editingGoal?.title || "");
+  const [description, setDescription] = useState(editingGoal?.description || "");
+
+  // For Edit Goal
+  const editGoal = editingGoal;
+  const [endDate, setEndDate] = useState(editGoal?.end_time || new Date());
+
+  const isTimeHidden = editGoal || timeframe === "custom";
+
+  const calculateEndTime = (start, timeframe, num, customEndDate) => {
+    switch (timeframe) {
+      case "day":
+        return new Date(start.setDate(start.getDate() + num));
+      case "week":
+        return new Date(start.setDate(start.getDate() + num * 7));
+      case "month":
+        return new Date(start.setMonth(start.getMonth() + num - 1));
+      case "custom":
+        return customEndDate;
+      default:
+        throw new Error("Invalid timeframe selected.");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const start = new Date(startDate);
+      const endTime = calculateEndTime(start, timeframe, num, endDate);
+
+      const reqBody = {
+        title,
+        description,
+        start_time: startDate.getTime(),
+        end_time: endTime ? endTime.getTime() : null,
+      };
+
+      const response = await axios.post(`${BASE_URL}/goals`, reqBody, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const goalId = response.data.id;
+
+      navigate("/set-reward", { state: { goalId } });
+    } catch (error) {
+      alert("Error submitting form", error);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!editGoal) return;
+
+    try {
+      const start = new Date(startDate);
+      const endTime = calculateEndTime(start, timeframe, num, endDate);
+
+      const reqBody = {
+        title,
+        description,
+        start_time: startDate.getTime(),
+        end_time: endTime ? endTime.getTime() : null,
+      };
+
+      const response = await axios.put(
+        `${BASE_URL}/goals/${editGoal.id}`,
+        reqBody,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Goal successfully updated!");
+        navigate("/goals");
+      }
+    } catch (error) {
+      alert(
+        `Error updating goal: ${error.response?.data?.message || error.message}`
+      );
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`${BASE_URL}/goals/${editGoal.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error(`Error deleting goal with ID ${editGoal.id}:`, error);
+    }
+    navigate("/goals");
+  };
+
+  return (
+    <form className="goal-form" onSubmit={handleSubmit}>
+      <div className="goal-form__group">
+        <input
+          className="goal-form__name"
+          name="name"
+          id="name"
+          placeholder={
+            goalTitle
+              ? goalTitle === "Customize Goal"
+                ? goalTitle
+                : undefined
+              : "enter your goal."
+          }
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        ></input>
+      </div>
+
+      <div className="goal-form__group">
+        <label className="label goal-form__label" htmlFor="why">
+          tell us your why.
+        </label>
+        <textarea
+          className="goal-form__textarea"
+          name="why"
+          id="why"
+          placeholder="I want to achieve this goal because..."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
+      </div>
+
+      <div className="goal-form__group">
+        <label className="goal-form__label" htmlFor="start">
+          pick a start date.
+        </label>
+        <DatePicker
+          className="goal-form__start"
+          selected={editGoal ? new Date(editGoal.start_time) : startDate}
+          onChange={(date) => setStartDate(date)}
+          placeholderText="select a date."
+        />
+      </div>
+
+      <div className="goal-form__group">
+        <label className="label goal-form__label" htmlFor="timeframe">
+          choose an end time.
+        </label>
+        {/* hide element when custom is selected or when editing an existing goal */}
+        <div
+          className={
+            isTimeHidden ? "goal-form__time--hidden" : "goal-form__time"
+          }
+        >
+          <input
+            className="goal-form__num"
+            type="number"
+            name="num"
+            id="num"
+            min="1"
+            max="9999"
+            value={num}
+            onChange={(e) => setNum(Number(e.target.value))}
+          />
+          <select
+            className="goal-form__select"
+            id="timeframe"
+            value={timeframe}
+            onChange={(e) => setTimeframe(e.target.value)}
+          >
+            <option value="day">Day(s)</option>
+            <option value="week">Week(s)</option>
+            <option value="month">Month(s)</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        {(timeframe === "custom" || editGoal) && (
+          <DatePicker
+            className="goal-form__end"
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            placeholderText="Select a date"
+          />
+        )}
+      </div>
+      {!editGoal && (
+        <button className="button button-dark goal-form__save" type="submit">
+          NEXT STEP
+        </button>
+      )}
+      {editGoal && (
+        <div className="goal-form__buttons">
+          <button
+            className="button button-dark goal-form__delete"
+            type="button"
+            onClick={handleSave}
+          >
+            SAVE
+          </button>
+          <button
+            className="button button-dark goal-form__delete"
+            type="button"
+            onClick={handleDelete}
+          >
+            DELETE
+          </button>
+        </div>
+      )}
+    </form>
+  );
+}
+
+export default GoalForm;

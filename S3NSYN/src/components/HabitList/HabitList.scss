@@ -3,7 +3,7 @@
 
 .habit-list {
 
-    width: 100%;
+  width: 100%;
 
   &__list {
     width: 100%;
@@ -30,7 +30,6 @@
     }
 
     &--done {
-      height: 4rem;
       flex-direction: row;
       background-color: $peach;
     }
@@ -63,8 +62,8 @@
 
     &:checked + .checkbox__span {
       background-color: $berry;
-      height: 0.75rem;
-      width: 0.75rem;
+      height: 1.5rem;
+      width: 1.5rem;
 
       &::after {
         display: block;
@@ -84,10 +83,10 @@
 
     &::after {
       content: "";
-      width: 0.75rem;
-      height: 0.75rem;
+      width: 1.5rem;
+      height: 1.5rem;
       background-color: $berry;
-      border-radius: 2px;
+      border-radius: 5px;
       display: none;
     }
 

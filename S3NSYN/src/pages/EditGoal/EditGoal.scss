@@ -2,7 +2,11 @@
 @use "../../styles/partials/mixins" as *;
 
 .edit-goal {
-  background-color: $peach;
+  background-color: $berry;
+
+  &__header {
+    align-self: flex-start;
+  }
 
   &__form {
     margin-bottom: 2rem;

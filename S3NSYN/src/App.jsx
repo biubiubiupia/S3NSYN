@@ -38,6 +38,7 @@ function App() {
           <Route path="/goal/:goalId/edit" element={<EditGoal />} />
           <Route path="/goal/:goalId" element={<UserHabits />} />
           <Route path="/habit/:habitId/edit" element={<EditHabit />} />
+          <Route path="*" element={<HomePage />}></Route>
         </Routes>
       </BrowserRouter>
     </>

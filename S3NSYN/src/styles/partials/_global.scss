@@ -10,7 +10,7 @@
   padding: 0;
 }
 
-section{
+section {
   width: 100%;
 }
 
@@ -24,6 +24,7 @@ textarea {
   color: $tangerine;
   font-size: 1rem;
   font-weight: $semi-bold;
+  background-color: $banane;
 }
 
 a,
@@ -48,6 +49,7 @@ textarea {
   border: solid 2px $tangerine;
   border-radius: 1.875rem;
   font-size: 1.125rem;
+  line-height: 1.5rem;
 
   &::placeholder {
     color: $kiwi;
@@ -61,6 +63,11 @@ textarea {
 
 h1 {
   font-size: 1.75rem;
+  padding: 1rem 0;
+}
+
+h2 {
+  font-size: 1.25rem;
   padding: 1rem 0;
 }
 
@@ -84,8 +91,9 @@ p {
   height: 5rem;
   border: none;
   border-radius: 3.125rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 800;
+  padding: .5rem;
 
   @include tablet {
     width: 20rem;
@@ -107,10 +115,20 @@ p {
 
 .button-mini {
   @extend .button;
-  width: 4rem;
+  width: 6rem;
   height: 3rem;
+  font-size: 1rem;
+  font-weight: 600;
   background-color: $berry;
   color: $banane;
+}
+
+.back-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  path {
+    fill: $tangerine;
+  }
 }
 
 .page {
@@ -122,8 +140,21 @@ p {
   align-items: center;
   overflow-y: scroll;
 
-  &__header {
-    margin-bottom: 1rem;
+  &__title {
+    width: 100%;
     align-self: flex-start;
   }
+}
+
+header,
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-back {
+  @extend .header;
+  justify-content: flex-end;
 }

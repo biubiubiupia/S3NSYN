@@ -13,21 +13,17 @@
     height: 5rem;
     margin-bottom: 1rem;
     padding: 0.5rem 1rem;
+    border: solid 5px $tangerine ;
     border-radius: 3.125rem;
-    background-color: $peach;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   &__title {
-    color: $banane;
+    color: $kiwi;
     font-weight: 800;
     margin-left: 10%;
-  }
-
-  &__progress {
-    align-self:flex-end;
   }
 }
 
@@ -38,18 +34,18 @@
 }
 
 .CircularProgressbar .CircularProgressbar-path {
-  stroke: $tangerine; // Change the progress color
+  stroke: $peach; // Change the progress color
   stroke-width: 0.6rem; // Change the stroke width
   background-color: $berry;
 }
 
 .CircularProgressbar .CircularProgressbar-trail {
-  stroke: $peach; // Modify the trail color
+  stroke: $banane; // Modify the trail color
 }
 
 .CircularProgressbar .CircularProgressbar-text {
   font-size: 1.5rem; // Adjust text size
-  fill: $banane; // Change text color
+  fill: $tangerine; // Change text color
 }
 
 .CircularProgressbar.CircularProgressbar-inverted
