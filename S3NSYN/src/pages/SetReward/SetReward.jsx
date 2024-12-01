@@ -9,6 +9,7 @@ let token = localStorage.getItem("authToken");
 function SetReward() {
   const location = useLocation();
   const goalId = location.state?.goalId;
+  const goalTitle = location.state?.title;
   const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
 
@@ -46,7 +47,7 @@ function SetReward() {
             "Content-Type": "application/json",
           },
         });
-        navigate("/set-habit", { state: { goalId } });
+        navigate("/set-habit", { state: { goalId, goalTitle } });
       } catch (error) {
         console.error("Error setting the reward", error);
       }
@@ -65,6 +66,7 @@ function SetReward() {
       <h1 className="reward__header page__header">
         when you accomplish your goal.
       </h1>
+      <h1 className="reward__goal">{goalTitle}</h1>
 
       <div
         className={`${selected ? "reward__group--hidden" : "reward__group"}`}
@@ -87,7 +89,7 @@ function SetReward() {
           <form className="reward__form" onSubmit={handleSubmit}>
             <div className="reward__group">
               <label className="reward__label" htmlFor="title">
-                Your reward:
+                your reward.
               </label>
               <input
                 className="reward__input"
@@ -107,14 +109,14 @@ function SetReward() {
             </div>
             <div className="reward__group">
               <label className="reward__label" htmlFor="description">
-                Imagine the moment when you achieve your goal and enjoy your
-                reward:
+                imagine the moment when you achieve your goal and enjoy your
+                reward.
               </label>
               <textarea
                 className="reward__textarea"
                 name="description"
                 id="description"
-                placeholder="Describe your feelings here..."
+                placeholder="Describe your feelings here."
               ></textarea>
             </div>
             <button className="button-dark reward__button" type="submit">

@@ -38,6 +38,7 @@ label {
   font-weight: $bold;
   color: $tangerine;
   padding-bottom: 1rem;
+  text-transform: lowercase;
 }
 
 input,
@@ -54,6 +55,7 @@ textarea {
   &::placeholder {
     color: $kiwi;
     font-weight: regular;
+    text-transform: lowercase;
   }
 
   &--error {
@@ -94,6 +96,7 @@ p {
   font-size: 1rem;
   font-weight: 800;
   padding: .5rem;
+  text-transform: uppercase;
 
   @include tablet {
     width: 20rem;

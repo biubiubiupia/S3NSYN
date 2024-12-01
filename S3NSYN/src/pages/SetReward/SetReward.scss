@@ -5,6 +5,10 @@
 .reward {
   background-color: $peach;
 
+  &__goal{
+    text-transform: uppercase;
+  }
+
   &__group {
     margin-bottom: 2rem;
     display: flex;
