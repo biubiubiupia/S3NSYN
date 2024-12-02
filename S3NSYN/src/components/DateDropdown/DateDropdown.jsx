@@ -1,6 +1,6 @@
 import "./DateDropdown.scss";
 
-function DateDropdown({ name, onChange, selectedDates }) {
+function DateDropdown({ name, onChange, currentIndex, selectedDates }) {
   const generateOptions = () => {
     return Array.from({ length: 31 }, (_, i) => {
       const date = i + 1;
@@ -13,26 +13,23 @@ function DateDropdown({ name, onChange, selectedDates }) {
           ? "rd"
           : "th";
 
-      if (
-        selectedDates.includes(date) &&
-        selectedDates[currentIndex] !== date
-      ) {
+      if (selectedDates.includes(date) && selectedDates[currentIndex] !== date) {
         return null;
+      } else {
+        return (
+          <option key={date} value={date}>
+            {date}
+            {suffix}
+          </option>
+        );
       }
-      
-      return (
-        <option key={date} value={date}>
-          {date}
-          {suffix}
-        </option>
-      );
     });
   };
 
   return (
     <select
       className={`date-dropdown ${name}`}
-      onChange={(e) => onChange(Number(e.target.value))} // Pass the selected value as a number
+      onChange={(e) => onChange(Number(e.target.value))} // Pass the selected date as a number
     >
       <option value="" disabled selected>
         DATE

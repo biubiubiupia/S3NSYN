@@ -15,7 +15,7 @@ function GoalForm({ editingGoal }) {
   const goalTitle = selectedGoal?.title;
 
   const [startDate, setStartDate] = useState(new Date());
-  const [num, setNum] = useState(1);
+  const [num, setNum] = useState();
   const [timeframe, setTimeframe] = useState("day");
   const [title, setTitle] = useState(editingGoal?.title || "");
   const [description, setDescription] = useState(editingGoal?.description || "");
@@ -52,6 +52,14 @@ function GoalForm({ editingGoal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!title){
+      alert("Please name your goal.")
+    }
+
+    if (!num){
+      alert("Please select an end time.")
+    }
+
     try {
       const response = await axios.post(`${BASE_URL}/goals`, reqBody, {
         headers: {
@@ -64,7 +72,7 @@ function GoalForm({ editingGoal }) {
 
       navigate("/set-reward", { state: { goalId, title } });
     } catch (error) {
-      alert(`Error submitting form: ${error.response?.data?.message || error.message}`);
+      console.error(`Error submitting form: ${error.response?.data?.message || error.message}`);
     }
   };
 

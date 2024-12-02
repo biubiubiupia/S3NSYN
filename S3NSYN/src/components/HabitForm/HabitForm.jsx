@@ -106,7 +106,7 @@ function HabitForm({ goalId, selectedHabit }) {
             onChange={handleFrequency}
           >
             <option value="" disabled>
-              Select Frequency
+              Frequency
             </option>
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
@@ -160,6 +160,7 @@ function HabitForm({ goalId, selectedHabit }) {
                 name="date"
                 className="habit-form__dropdown"
                 selectedDates={selectedDates}
+                currentIndex={index}
                 onChange={(date) => handleDateSelect(date, index)} 
               />
             ))}
