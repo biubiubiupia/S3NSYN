@@ -1,28 +1,45 @@
 import "./DateDropdown.scss";
 
-function DateDropdown ({name}) {
-
+function DateDropdown({ name, onChange, selectedDates }) {
   const generateOptions = () => {
     return Array.from({ length: 31 }, (_, i) => {
-      const day = i + 1;
+      const date = i + 1;
       const suffix =
-        day === 1 || day === 21 || day === 31
+        date === 1 || date === 21 || date === 31
           ? "st"
-          : day === 2 || day === 22
+          : date === 2 || date === 22
           ? "nd"
-          : day === 3 || day === 23
+          : date === 3 || date === 23
           ? "rd"
           : "th";
+
+      if (
+        selectedDates.includes(date) &&
+        selectedDates[currentIndex] !== date
+      ) {
+        return null;
+      }
+      
       return (
-        <option key={day} value={`${day}${suffix}`}>
-          {day}
+        <option key={date} value={date}>
+          {date}
           {suffix}
         </option>
       );
     });
   };
 
-  return <select className={`date-dropdown ${name}`}>{generateOptions()}</select>;
-};
+  return (
+    <select
+      className={`date-dropdown ${name}`}
+      onChange={(e) => onChange(Number(e.target.value))} // Pass the selected value as a number
+    >
+      <option value="" disabled selected>
+        DATE
+      </option>
+      {generateOptions()}
+    </select>
+  );
+}
 
 export default DateDropdown;

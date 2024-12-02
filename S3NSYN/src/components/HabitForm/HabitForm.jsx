@@ -11,21 +11,59 @@ function HabitForm({ goalId, selectedHabit }) {
   const [count, setCount] = useState(0);
   const [frequency, setFrequency] = useState("");
   const [selectedDays, setSelectedDays] = useState([]);
+  const [selectedDates, setSelectedDates] = useState(Array(count).fill(null));
+  const [times, setTimes] = useState([]);
 
   const handleCount = (e) => {
     const value = Number(e.target.value);
-    setCount(value > 7 ? 7 : Math.max(value, 1)); 
+    setCount(value);
   };
   const handleFrequency = (e) => setFrequency(e.target.value);
 
   const handleDaySelect = (day) => {
-    setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-    );
+    setSelectedDays((prev) => {
+      if (prev.includes(day)) {
+        return prev.filter((d) => d !== day);
+      } else if (prev.length < count) {
+        return [...prev, day];
+      }
+      return prev;
+    });
+  };
+
+  const handleDateSelect = (date, index) => {
+    setSelectedDates((prev) => {
+      // Prevent duplicates by checking if the new date is already selected (excluding the current index)
+      if (prev.includes(date) && prev[index] !== date) {
+        return prev; // Do nothing if the date is already selected elsewhere
+      }
+      
+      // Replace the date at the specified index
+      const updatedDates = [...prev];
+      updatedDates[index] = date;
+      return updatedDates;
+    });
+  };
+
+  useEffect(() => {
+    console.log(selectedDates);
+  }, [selectedDates]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const reqBody = {
+      title: e.target.title.value,
+      frequency: e.target.frequency.value,
+      count,
+      selectedDays,
+      selectedDates,
+      times,
+    };
   };
 
   return (
-    <form className="habit-form">
+    <form className="habit-form" onSubmit={handleSubmit}>
       <div className="habit-form__group">
         <label className="habit-form__label" htmlFor="title">
           Your habit.
@@ -58,7 +96,7 @@ function HabitForm({ goalId, selectedHabit }) {
             id="num"
             min="1"
             max="7"
-            value={Math.min(count, 7)}
+            // value={Math.min(count, 7)}
             onChange={handleCount}
           />
           <p>TIMES</p>
@@ -94,15 +132,16 @@ function HabitForm({ goalId, selectedHabit }) {
                 index
               ];
               return (
-                <input
+                <button
                   key={index}
-                  className="habit-form__checkbox"
-                  type="checkbox"
-                  disabled={
-                    selectedDays.length >= count && !selectedDays.includes(day)
-                  }
-                  onChange={() => handleDaySelect(day)}
-                />
+                  type="button"
+                  className={`habit-form__day${
+                    selectedDays.includes(day) ? "--selected" : ""
+                  }`}
+                  onClick={() => handleDaySelect(day)}
+                >
+                  {day}
+                </button>
               );
             })}
           </div>
@@ -118,26 +157,22 @@ function HabitForm({ goalId, selectedHabit }) {
             {Array.from({ length: Math.min(count, 7) }).map((_, index) => (
               <DateDropdown
                 key={index}
-                name={"habit-form__dropdown"}
+                name="date"
                 className="habit-form__dropdown"
+                selectedDates={selectedDates}
+                onChange={(date) => handleDateSelect(date, index)} 
               />
             ))}
           </div>
           <div className="habit-form__group">
             <label className="habit-form__label">when?</label>
-            <TimeInput className="habit-form__time" />
+            <TimeInput className={"habit-form__time"} />
           </div>
         </div>
       )}
-
-      <div className="habit-form__buttons">
-        <button className="button-dark habit-form__button" type="submit">
-          Save
-        </button>
-        <button className="button-dark habit-form__button" type="submit">
-          Add
-        </button>
-      </div>
+      <button className="button-dark habit-form__button" type="submit">
+        Save
+      </button>
     </form>
   );
 }

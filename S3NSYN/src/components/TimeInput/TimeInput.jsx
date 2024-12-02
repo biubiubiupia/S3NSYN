@@ -1,8 +1,8 @@
 import "./TimeInput.scss";
 
-function TimeInput() {
+function TimeInput({className}) {
   return (
-    <div className="time-input">
+    <div className={`${className} time-input`}>
       <input
         className="time-input__digit"
         placeholder="3"
