@@ -5,7 +5,6 @@ function TimeInput() {
     <div className="time-input">
       <input
         className="time-input__digit"
-        type="number"
         placeholder="3"
         min="1"
         max="12"
@@ -13,7 +12,6 @@ function TimeInput() {
       <p className="time-input__colon">:</p>
       <input
         className="time-input__digit"
-        type="number"
         placeholder="33"
         min="00"
         max="59"

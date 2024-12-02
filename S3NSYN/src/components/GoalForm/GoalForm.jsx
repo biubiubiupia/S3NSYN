@@ -21,7 +21,6 @@ function GoalForm({ editingGoal }) {
   const [description, setDescription] = useState(editingGoal?.description || "");
 
   // For Edit Goal
-  // const editingGoal = editingGoal;
   const [endDate, setEndDate] = useState(editingGoal?.end_time || new Date());
 
   const isTimeHidden = editingGoal || timeframe === "custom";

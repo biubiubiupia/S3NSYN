@@ -2,38 +2,26 @@ import "./HabitForm.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import TimeInput from "../TimeInput/TimeInput";
+import DateDropdown from "../DateDropdown/DateDropdown";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 function HabitForm({ goalId, selectedHabit }) {
   const token = localStorage.getItem("authToken");
-  const [goal, setGoal] = useState({});
 
-  const [frequency, setFrequency] = useState("");
   const [count, setCount] = useState(0);
-  // const [weeklyCount, setWeeklyCount] = useState(0);
-  // const [monthlyCount, setMonthlyCount] = useState(0);
+  const [frequency, setFrequency] = useState("");
   const [selectedDays, setSelectedDays] = useState([]);
-  const [dates, setDates] = useState([]);
 
-  const handleCount = (e) => setCount(Number(e.target.value));
+  const handleCount = (e) => {
+    const value = Number(e.target.value);
+    setCount(value > 7 ? 7 : Math.max(value, 1)); 
+  };
   const handleFrequency = (e) => setFrequency(e.target.value);
-
-  const handleWeeklyCountChange = (e) => setWeeklyCount(Number(e.target.value));
-  const handleMonthlyCountChange = (e) =>
-    setMonthlyCount(Number(e.target.value));
 
   const handleDaySelect = (day) => {
     setSelectedDays((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
     );
-  };
-
-  const handleDateChange = (index, date) => {
-    setDates((prev) => {
-      const newDates = [...prev];
-      newDates[index] = date;
-      return newDates;
-    });
   };
 
   return (
@@ -70,15 +58,18 @@ function HabitForm({ goalId, selectedHabit }) {
             id="num"
             min="1"
             max="7"
-            value={count}
+            value={Math.min(count, 7)}
             onChange={handleCount}
           />
-          <p>times</p>
+          <p>TIMES</p>
           <select
             className="habit-form__select"
             value={frequency}
             onChange={handleFrequency}
           >
+            <option value="" disabled>
+              Select Frequency
+            </option>
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
             <option value="monthly">Monthly</option>
@@ -86,10 +77,10 @@ function HabitForm({ goalId, selectedHabit }) {
         </div>
       </div>
 
-      {frequency === "daily" && (
-        <div>
+      {frequency === "daily" && count > 0 && (
+        <div className="habit-form__group">
           <label className="habit-form__label">when?</label>
-          {Array.from({ length: count }).map((_, index) => (
+          {Array.from({ length: Math.min(count, 7) }).map((_, index) => (
             <TimeInput key={index} className="habit-form__time" />
           ))}
         </div>
@@ -115,12 +106,29 @@ function HabitForm({ goalId, selectedHabit }) {
               );
             })}
           </div>
-          <label className="habit-form__label" >when?</label>
+          <label className="habit-form__label">when?</label>
           <TimeInput className="habit-form__time" />
         </div>
       )}
 
-      
+      {frequency === "monthly" && count > 0 && (
+        <div>
+          <div className="habit-form__group habit-form__date">
+            <p>ON</p>
+            {Array.from({ length: Math.min(count, 7) }).map((_, index) => (
+              <DateDropdown
+                key={index}
+                name={"habit-form__dropdown"}
+                className="habit-form__dropdown"
+              />
+            ))}
+          </div>
+          <div className="habit-form__group">
+            <label className="habit-form__label">when?</label>
+            <TimeInput className="habit-form__time" />
+          </div>
+        </div>
+      )}
 
       <div className="habit-form__buttons">
         <button className="button-dark habit-form__button" type="submit">

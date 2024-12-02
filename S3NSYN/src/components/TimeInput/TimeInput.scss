@@ -9,7 +9,7 @@
 
   &__digit {
     width: 60%;
-    height: 3rem;
+    // height: 3rem;
   }
 
   &__colon {
@@ -19,6 +19,7 @@
 
   &__ampm {
     padding: 0 .5rem;
-    height: 3rem;
+    // height: 3rem;
+    margin-left: .5rem;
   }
 }
