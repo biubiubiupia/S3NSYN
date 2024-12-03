@@ -18,6 +18,7 @@ function HabitForm({ goalId, selectedHabit }) {
     const value = Number(e.target.value);
     setCount(value);
   };
+
   const handleFrequency = (e) => setFrequency(e.target.value);
 
   const handleDaySelect = (day) => {
@@ -33,24 +34,32 @@ function HabitForm({ goalId, selectedHabit }) {
 
   const handleDateSelect = (date, index) => {
     setSelectedDates((prev) => {
-      // Prevent duplicates by checking if the new date is already selected (excluding the current index)
       if (prev.includes(date) && prev[index] !== date) {
-        return prev; // Do nothing if the date is already selected elsewhere
+        return prev;
       }
-      
-      // Replace the date at the specified index
+
       const updatedDates = [...prev];
       updatedDates[index] = date;
       return updatedDates;
     });
   };
 
+  const handleTimeInput = (time, index) => {
+    setTimes((prev) => {
+      const updatedTimes = [...prev]; 
+      updatedTimes[index] = { ...updatedTimes[index], time }; 
+      return updatedTimes;
+    });
+  };
+
   useEffect(() => {
-    console.log(selectedDates);
-  }, [selectedDates]);
+    console.log(times);
+  }, [times]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log;
 
     const reqBody = {
       title: e.target.title.value,
@@ -119,7 +128,13 @@ function HabitForm({ goalId, selectedHabit }) {
         <div className="habit-form__group">
           <label className="habit-form__label">when?</label>
           {Array.from({ length: Math.min(count, 7) }).map((_, index) => (
-            <TimeInput key={index} className="habit-form__time" />
+            <TimeInput
+              key={index}
+              className="habit-form__time"
+              time={timeObject.time} // Pass the current time to TimeInput
+    onChange={(newTime) => handleTimeInput(newTime, index)} // Pass the new time and index
+              handleTimeInput={handleTimeInput}
+            />
           ))}
         </div>
       )}
@@ -161,7 +176,7 @@ function HabitForm({ goalId, selectedHabit }) {
                 className="habit-form__dropdown"
                 selectedDates={selectedDates}
                 currentIndex={index}
-                onChange={(date) => handleDateSelect(date, index)} 
+                onChange={(date) => handleDateSelect(date, index)}
               />
             ))}
           </div>
