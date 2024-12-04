@@ -1,8 +1,8 @@
 import "./Signup.scss";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import logoDark from "../../assets/logos/S3NSYN-logo-dark.png"
 import SignupForm from "../../components/SignupForm/SignupForm";
+import HeaderBack from "../../components/HeaderBack/HeaderBack";
 
 function Signup() {
 
@@ -17,7 +17,7 @@ function Signup() {
  
   return (
     <main className="page signup">
-      <img className="logo-top signup__logo" src={logoDark} alt="S3NSYN logo"></img>
+      <HeaderBack backto={"/"} />
       <h1 className="signup__header">create an account.</h1>
       <SignupForm></SignupForm>
     </main>

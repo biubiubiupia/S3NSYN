@@ -10,7 +10,7 @@ function SetGoal() {
 
   return (
     <main className="page set-goal">
-      <HeaderBack></HeaderBack>
+      <HeaderBack backto={"/goals"}></HeaderBack>
       <h1 className="set-goal__header page__header">set your goal.</h1>
       <GoalForm selectedGoal={selectedGoal} />
     </main>
