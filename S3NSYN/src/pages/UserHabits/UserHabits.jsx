@@ -6,13 +6,13 @@ import RewardProgress from "../../components/RewardProgress/RewardProgress";
 import HeaderBack from "../../components/HeaderBack/HeaderBack";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-
 function UserHabits() {
   const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
   const { goalId } = useParams();
   const [goal, setGoal] = useState(null);
-  const [habits, setHabits] = useState([])
+  const [habits, setHabits] = useState([]);
+  const [reward, setReward] = useState({});
 
   const getGoal = async () => {
     try {
@@ -28,19 +28,33 @@ function UserHabits() {
     }
   };
 
-  const getHabits = async() => {
+  const getHabits = async () => {
     try {
-      const {data} = await axios.get(`${BASE_URL}/habits/${goalId}`, {
+      const { data } = await axios.get(`${BASE_URL}/habits/${goalId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
       setHabits(data);
-    }catch(error){
-      console.error("Error fetching habits:", error)
+    } catch (error) {
+      console.error("Error fetching habits:", error);
     }
-  }
+  };
+
+  const getReward = async () => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/rewards/${goalId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setReward(data);
+    } catch (error) {
+      console.error("Error fetching reward:", error);
+    }
+  };
 
   useEffect(() => {
     getGoal();
@@ -49,23 +63,21 @@ function UserHabits() {
   useEffect(() => {
     getHabits();
   }, []);
-  
-  // console.log(habits);
 
-  const defaultHabits = [
-    { id: 1, habit: "Write for 15 mins" },
-    { id: 2, habit: "Meditate for 10 mins" },
-    { id: 4, habit: "Brush hair 50 times" },
-  ];
+  useEffect(() => {
+    getReward();
+  }, []);
 
-  const rewardList = [
-    { id: 1, title: "Buy a Birkin", points: 999 },
-  ];
+  useEffect(() => {
+    console.log(reward);
+  }, [reward]);
+
+  const rewardList = [{ id: 1, title: "Buy a Birkin", points: 999 }];
 
   return (
     <main className="page habits">
-     <HeaderBack backto={"/goals"}/>
-     <div className="habits__top">
+      <HeaderBack backto={"/goals"} />
+      <div className="habits__top">
         <h1 className="habits__header page__header">{goal?.title}</h1>
         <button
           className="button-mini habits__edit"
@@ -74,9 +86,9 @@ function UserHabits() {
           EDIT
         </button>
       </div>
-        <h2 className="habits__header page__header">build good habits.</h2>
-      <div className="habits__group"> 
-      {habits.map((habit) => (
+      <h2 className="habits__header page__header">build good habits.</h2>
+      <div className="habits__group">
+        {habits.map((habit) => (
           <button
             key={habit.id}
             className="habits__name button-dark"
@@ -85,11 +97,16 @@ function UserHabits() {
             {habit.title}
           </button>
         ))}
-        <button className="habits__add button-dark" onClick={() => navigate("/set-habit", {state: {goalId}})}>ADD</button>
+        <button
+          className="habits__add button-dark"
+          onClick={() => navigate("/set-habit", { state: { goalId } })}
+        >
+          ADD
+        </button>
       </div>
       <section className="habits__section">
         <h1 className="page__header habits__header">reward progress.</h1>
-        <RewardProgress rewardList={rewardList}></RewardProgress>
+        <RewardProgress reward={reward}/>
       </section>
     </main>
   );
