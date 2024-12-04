@@ -4,9 +4,9 @@ import { useState } from "react";
 import axios from "axios";
 import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
 let BASE_URL = import.meta.env.VITE_API_URL;
-let token = localStorage.getItem("authToken");
 
 function SetReward() {
+  const token = localStorage.getItem("authToken");
   const location = useLocation();
   const goalId = location.state?.goalId;
   const goalTitle = location.state?.title;
