@@ -3,8 +3,11 @@
 @use "../../styles/partials/global" as *;
 
 .reward {
-  &__list {
-    list-style: none;
+  &__container{
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    width: 100&;
   }
 
   &__box {

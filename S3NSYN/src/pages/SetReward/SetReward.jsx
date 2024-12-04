@@ -14,8 +14,8 @@ function SetReward() {
   const [selected, setSelected] = useState(null);
 
   const defaultRewards = [
-    { id: 1, reward: "Buy a Birkin" },
-    { id: 2, reward: "Go to TS Concert" },
+    { id: 1, reward: "Take a Trip" },
+    { id: 2, reward: "Buy a Kindle" },
     { id: 3, reward: "Eat a Whole Pizza Pie" },
     { id: 4, reward: "Customize Reward" },
   ];

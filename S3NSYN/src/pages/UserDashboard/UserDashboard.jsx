@@ -1,12 +1,30 @@
 import "./UserDashboard.scss";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import HabitList from "../../components/HabitList/HabitList";
 import RewardProgress from "../../components/RewardProgress/RewardProgress";
 import Header from "../../components/Header/Header";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function UserDashboard() {
+  const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
+  const [rewards, setRewards] = useState([]);
+
+  const getAllRewards = async () => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/rewards`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setRewards(data);
+    } catch (error) {
+      console.error("Error fetching goal:", error);
+    }
+  };
 
   const defaultRewards = [
     { id: 1, title: "Buy a Birkin", points: 599 },
@@ -15,12 +33,19 @@ function UserDashboard() {
   ];
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
     if (!token) {
       navigate("/");
     }
   }, [navigate]);
 
+  useEffect(() => {
+    getAllRewards();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(rewards);
+  // }, [rewards]);
+  
   return (
     <main className="page dashboard">
       <Header />
@@ -36,7 +61,7 @@ function UserDashboard() {
       <HabitList></HabitList>
       <section className="dashboard__reward dashboard__section ">
         <h1 className="page__header dashboard__header">eyes on the reward.</h1>
-        <RewardProgress rewardList={defaultRewards}></RewardProgress>
+        <RewardProgress rewards={rewards}></RewardProgress>
       </section>
     </main>
   );

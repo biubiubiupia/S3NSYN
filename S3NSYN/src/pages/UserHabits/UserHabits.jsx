@@ -1,5 +1,5 @@
 import "./UserHabits.scss";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import RewardProgress from "../../components/RewardProgress/RewardProgress";
@@ -68,12 +68,6 @@ function UserHabits() {
     getReward();
   }, []);
 
-  useEffect(() => {
-    console.log(reward);
-  }, [reward]);
-
-  const rewardList = [{ id: 1, title: "Buy a Birkin", points: 999 }];
-
   return (
     <main className="page habits">
       <HeaderBack backto={"/goals"} />
@@ -106,7 +100,7 @@ function UserHabits() {
       </div>
       <section className="habits__section">
         <h1 className="page__header habits__header">reward progress.</h1>
-        <RewardProgress reward={reward}/>
+        <RewardProgress rewards={[reward]}/>
       </section>
     </main>
   );

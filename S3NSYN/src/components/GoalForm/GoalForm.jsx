@@ -1,6 +1,6 @@
 import "./GoalForm.scss";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate} from "react-router-dom";
+import { useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,11 +9,9 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 function GoalForm({ editingGoal, selectedGoal }) {
   const navigate = useNavigate();
   const token = localStorage.getItem("authToken");
+
   // For Set Goal/Add Goal
-  // const location = useLocation();
-  // const selectedGoal = location.state?.selectedGoal;
   const goalTitle = selectedGoal?.title;
-  console.log(goalTitle)
 
   const [startDate, setStartDate] = useState(() =>
     editingGoal?.start_time ? new Date(editingGoal.start_time) : new Date()
@@ -24,7 +22,7 @@ function GoalForm({ editingGoal, selectedGoal }) {
     if (editingGoal?.title) {
       return editingGoal.title;
     }
-    return selectedGoal?.title == "Customize Goal" ? "" : selectedGoal.title;
+    return selectedGoal?.title == "Customize Goal" ? "" : selectedGoal?.title;
   });  
   const [description, setDescription] = useState(
     editingGoal?.description || ""
