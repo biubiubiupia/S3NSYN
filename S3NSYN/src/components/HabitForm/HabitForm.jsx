@@ -17,10 +17,13 @@ function HabitForm({ goalId, selectedHabit }) {
   const [times, setTimes] = useState([]);
 
   const handleCount = (e) => {
-    const value = Number(e.target.value);
-    setCount(value);
-    setTimes(Array(value).fill(""));
-    setSelectedDays([]);
+    const value = e.target.value;
+  
+    if (/^\d*$/.test(value)) {
+      setCount(value === "" ? 0 : parseInt(value, 10));
+      setTimes(Array(value === "" ? 0 : parseInt(value, 10)).fill(""));
+      setSelectedDays([]);
+    }
   };
 
   const handleFrequency = (e) => setFrequency(e.target.value);

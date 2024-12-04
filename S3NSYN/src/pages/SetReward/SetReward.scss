@@ -9,6 +9,10 @@
     text-transform: uppercase;
   }
 
+  &__input {
+    text-transform: capitalize;
+  }
+
   &__group {
     margin-bottom: 2rem;
     display: flex;

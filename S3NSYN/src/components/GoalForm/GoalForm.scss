@@ -18,14 +18,18 @@
     padding-bottom: 1rem;
   }
 
-  &__start {
-    width: 100%;
-    display: flex;
-    gap: 0.5rem;
+  &__name {
+    text-transform: capitalize;
   }
 
   &__textarea {
     height: 10rem;
+  }
+
+  &__start {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
   }
 
   &__time {

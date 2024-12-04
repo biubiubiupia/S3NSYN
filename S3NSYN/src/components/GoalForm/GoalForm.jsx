@@ -14,8 +14,8 @@ function GoalForm({ editingGoal }) {
   const selectedGoal = location.state?.selectedGoal;
   const goalTitle = selectedGoal?.title;
 
-  const [startDate, setStartDate] = useState(() => 
-    editingGoal? new Date(editingGoal.start_time) : new Date()
+  const [startDate, setStartDate] = useState(() =>
+    editingGoal?.start_time ? new Date(editingGoal.start_time) : new Date()
   );
   const [num, setNum] = useState();
   const [timeframe, setTimeframe] = useState("day");
@@ -58,9 +58,6 @@ function GoalForm({ editingGoal }) {
     end_time: endTime.getTime(),
   };
 
-  console.log(editingGoal.start_time)
-  console.log(startDate)
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -97,9 +94,8 @@ function GoalForm({ editingGoal }) {
 
     try {
       const response = await axios.put(
-        `${BASE_URL}/goals/${editingGoal.id}`, {...reqBody,
-          end_time: endDate.getTime(),
-        },
+        `${BASE_URL}/goals/${editingGoal.id}`,
+        { ...reqBody, end_time: endDate.getTime() },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -136,20 +132,21 @@ function GoalForm({ editingGoal }) {
   return (
     <form className="goal-form" onSubmit={handleSubmit}>
       <div className="goal-form__group">
-        <input
-          className="goal-form__name"
-          name="name"
-          id="name"
-          placeholder={
-            goalTitle
-              ? goalTitle === "Customize Goal"
-                ? goalTitle
-                : undefined
-              : "enter your goal."
-          }
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        ></input>
+        <label className="goal-form__label" htmlFor="name">name your goal.</label>
+          <input
+            className="goal-form__name"
+            name="name"
+            id="name"
+            placeholder={
+              goalTitle
+                ? goalTitle === "Customize Goal"
+                  ? goalTitle
+                  : undefined
+                : "enter your goal."
+            }
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          ></input>
       </div>
 
       <div className="goal-form__group">
