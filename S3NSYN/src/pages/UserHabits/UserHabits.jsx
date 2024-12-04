@@ -50,7 +50,7 @@ function UserHabits() {
     getHabits();
   }, []);
   
-  console.log(habits);
+  // console.log(habits);
 
   const defaultHabits = [
     { id: 1, habit: "Write for 15 mins" },

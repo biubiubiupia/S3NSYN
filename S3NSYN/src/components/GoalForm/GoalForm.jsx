@@ -1,6 +1,6 @@
 import "./GoalForm.scss";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -14,11 +14,15 @@ function GoalForm({ editingGoal }) {
   const selectedGoal = location.state?.selectedGoal;
   const goalTitle = selectedGoal?.title;
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(() => 
+    editingGoal? new Date(editingGoal.start_time) : new Date()
+  );
   const [num, setNum] = useState();
   const [timeframe, setTimeframe] = useState("day");
   const [title, setTitle] = useState(editingGoal?.title || "");
-  const [description, setDescription] = useState(editingGoal?.description || "");
+  const [description, setDescription] = useState(
+    editingGoal?.description || ""
+  );
 
   // For Edit Goal
   const [endDate, setEndDate] = useState(editingGoal?.end_time || new Date());
@@ -32,7 +36,7 @@ function GoalForm({ editingGoal }) {
       case "week":
         return new Date(start.setDate(start.getDate() + num * 7));
       case "month":
-        return new Date(start.setMonth(start.getMonth() + (num - 1)));
+        return new Date(start.setMonth(start.getMonth() + num));
       case "custom":
         return customEndDate;
       default:
@@ -40,24 +44,32 @@ function GoalForm({ editingGoal }) {
     }
   };
 
-  const endTime = calculateEndTime(new Date(startDate), timeframe, num, endDate);
+  const endTime = calculateEndTime(
+    new Date(startDate),
+    timeframe,
+    num,
+    endDate
+  );
 
   const reqBody = {
     title,
     description,
     start_time: startDate.getTime(),
-    end_time: endTime ? endTime.getTime() : null,
+    end_time: endTime.getTime(),
   };
+
+  console.log(editingGoal.start_time)
+  console.log(startDate)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title){
-      alert("Please name your goal.")
+    if (!title) {
+      alert("Please name your goal.");
     }
 
-    if (!num){
-      alert("Please select an end time.")
+    if (!num) {
+      alert("Please select an end time.");
     }
 
     try {
@@ -72,21 +84,21 @@ function GoalForm({ editingGoal }) {
 
       navigate("/set-reward", { state: { goalId, title } });
     } catch (error) {
-      console.error(`Error submitting form: ${error.response?.data?.message || error.message}`);
+      console.error(
+        `Error submitting form: ${
+          error.response?.data?.message || error.message
+        }`
+      );
     }
   };
 
   const handleSave = async () => {
     if (!editingGoal) return;
 
-    console.log(`${BASE_URL}/goals/${editingGoal.id}`)
-  
     try {
       const response = await axios.put(
-        `${BASE_URL}/goals/${editingGoal.id}`,
-        {
-          ...reqBody,
-          end_time: endTime.getTime(), // Always use the custom end date in editing
+        `${BASE_URL}/goals/${editingGoal.id}`, {...reqBody,
+          end_time: endDate.getTime(),
         },
         {
           headers: {
@@ -95,7 +107,7 @@ function GoalForm({ editingGoal }) {
           },
         }
       );
-  
+
       if (response.status === 200) {
         alert("Goal successfully updated!");
         navigate("/goals");
@@ -106,7 +118,7 @@ function GoalForm({ editingGoal }) {
       );
     }
   };
-  
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${BASE_URL}/goals/${editingGoal.id}`, {
@@ -160,7 +172,7 @@ function GoalForm({ editingGoal }) {
         </label>
         <DatePicker
           className="goal-form__start"
-          selected={editingGoal ? new Date(editingGoal.start_time) : startDate}
+          selected={startDate}
           onChange={(date) => setStartDate(date)}
           placeholderText="select a date."
         />
