@@ -97,7 +97,7 @@ function SignupForm() {
     if (validate()) {
       try {
         const response = await axios.post(`${BASE_URL}/signup`, formData);
-        console.log("Signed up successfully!");
+        alert("Signed up successfully!");
         const token = response.data.token;
         localStorage.setItem("authToken", token);
 

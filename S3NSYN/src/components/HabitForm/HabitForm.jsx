@@ -1,5 +1,6 @@
 import "./HabitForm.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import TimeInput from "../TimeInput/TimeInput";
 import DateDropdown from "../DateDropdown/DateDropdown";
@@ -7,6 +8,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 function HabitForm({ goalId, selectedHabit }) {
   const token = localStorage.getItem("authToken");
+  const navigate = useNavigate();
 
   const [count, setCount] = useState(0);
   const [frequency, setFrequency] = useState("");
@@ -17,6 +19,8 @@ function HabitForm({ goalId, selectedHabit }) {
   const handleCount = (e) => {
     const value = Number(e.target.value);
     setCount(value);
+    setTimes(Array(value).fill(""));
+    setSelectedDays([]);
   };
 
   const handleFrequency = (e) => setFrequency(e.target.value);
@@ -46,20 +50,14 @@ function HabitForm({ goalId, selectedHabit }) {
 
   const handleTimeInput = (time, index) => {
     setTimes((prev) => {
-      const updatedTimes = [...prev]; 
-      updatedTimes[index] = { ...updatedTimes[index], time }; 
+      const updatedTimes = [...prev];
+      updatedTimes[index] = time;
       return updatedTimes;
     });
   };
 
-  useEffect(() => {
-    console.log(times);
-  }, [times]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log;
 
     const reqBody = {
       title: e.target.title.value,
@@ -68,7 +66,21 @@ function HabitForm({ goalId, selectedHabit }) {
       selectedDays,
       selectedDates,
       times,
+      goal_id: goalId,
     };
+
+    try {
+      await axios.post(`${BASE_URL}/habits`, reqBody, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      navigate(`/goal/${goalId}`);
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
@@ -105,12 +117,13 @@ function HabitForm({ goalId, selectedHabit }) {
             id="num"
             min="1"
             max="7"
-            // value={Math.min(count, 7)}
+            value={Math.min(count, 7)}
             onChange={handleCount}
           />
-          <p>TIMES</p>
+          <p>time(s)</p>
           <select
             className="habit-form__select"
+            name="frequency"
             value={frequency}
             onChange={handleFrequency}
           >
@@ -131,8 +144,7 @@ function HabitForm({ goalId, selectedHabit }) {
             <TimeInput
               key={index}
               className="habit-form__time"
-              time={timeObject.time} // Pass the current time to TimeInput
-    onChange={(newTime) => handleTimeInput(newTime, index)} // Pass the new time and index
+              index={index}
               handleTimeInput={handleTimeInput}
             />
           ))}
@@ -161,7 +173,11 @@ function HabitForm({ goalId, selectedHabit }) {
             })}
           </div>
           <label className="habit-form__label">when?</label>
-          <TimeInput className="habit-form__time" />
+          <TimeInput
+            className="habit-form__time"
+            index={0}
+            handleTimeInput={handleTimeInput}
+          />
         </div>
       )}
 
@@ -182,7 +198,11 @@ function HabitForm({ goalId, selectedHabit }) {
           </div>
           <div className="habit-form__group">
             <label className="habit-form__label">when?</label>
-            <TimeInput className={"habit-form__time"} />
+            <TimeInput
+              className={"habit-form__time"}
+              index={0}
+              handleTimeInput={handleTimeInput}
+            />
           </div>
         </div>
       )}

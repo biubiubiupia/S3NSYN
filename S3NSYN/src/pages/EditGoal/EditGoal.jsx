@@ -8,9 +8,9 @@ import GoalForm from "../../components/GoalForm/GoalForm";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 function EditGoal() {
+  const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
   const { goalId } = useParams();
-  const token = localStorage.getItem("authToken");
   const [goal, setGoal] = useState(null);
 
   const getGoal = async () => {

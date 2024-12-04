@@ -38,8 +38,6 @@ function SetReward() {
         goal_id: goalId,
       };
 
-      console.log(reqBody)
-
       try {
         await axios.post(`${BASE_URL}/rewards`, reqBody, {
           headers: {
