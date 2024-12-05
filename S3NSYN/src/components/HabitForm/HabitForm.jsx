@@ -20,27 +20,33 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
     editingHabit?.selectedDates || Array(editingHabit?.count || 0).fill(null)
   );
   const [times, setTimes] = useState(
-    editingHabit?.times || Array(count).fill("")
+    editingHabit?.alert_times || Array(count).fill("")
   );
 
   useEffect(() => {
     if (editingHabit) {
+      // console.log(editingHabit);
       setCount(editingHabit.count || 0);
       setFrequency(editingHabit.frequency || "");
       setSelectedDays(editingHabit.weekly_days || []);
       setSelectedDates(
         editingHabit.selectedDates || Array(editingHabit.count || 0).fill(null)
       );
-      setTimes(editingHabit.times || Array(editingHabit.count || 0).fill(""));
+      setTimes(
+        editingHabit.alert_times || Array(editingHabit.count || 0).fill("")
+      );
     }
   }, [editingHabit]);
+
+  // useEffect(()=>{
+  //   console.log(goalId)
+  // },[])
 
   const handleCount = (e) => {
     const value = e.target.value;
 
     if (/^\d*$/.test(value)) {
       setCount(value === "" ? 0 : parseInt(value, 10));
-      setTimes(Array(value).fill(""));
       setSelectedDays([]);
     }
   };
@@ -57,10 +63,6 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
       return prev;
     });
   };
-
-  // useEffect(() => {
-  //   console.log(selectedDays);
-  // }, []);
 
   const handleDateSelect = (date, index) => {
     const updatedDates = [...selectedDates];
@@ -84,17 +86,22 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
       selectedDays,
       selectedDates,
       times,
-      goal_id: goalId,
+      goal_id: goalId || editingHabit?.goal_id,
     };
 
     try {
       if (editingHabit) {
-        await axios.put(`${BASE_URL}/habits/habit/${editingHabit?.id}`, reqBody, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+        // console.log(reqBody);
+        await axios.put(
+          `${BASE_URL}/habits/habit/${editingHabit?.id}`,
+          reqBody,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
         navigate(`/goal/${editingHabit.goal_id}`);
       } else {
         await axios.post(`${BASE_URL}/habits`, reqBody, {
@@ -106,7 +113,7 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
         navigate(`/goal${goalId}`);
       }
     } catch (error) {
-      alert(error);
+      console.error("Error submitting habit:", error);
     }
   };
 
@@ -202,7 +209,7 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
             index={0}
             handleTimeInput={handleTimeInput}
             defaultTime={editingHabit?.alert_times?.[0]}
-            />
+          />
         </div>
       )}
 

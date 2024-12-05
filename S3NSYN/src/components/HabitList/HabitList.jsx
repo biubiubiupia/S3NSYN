@@ -27,11 +27,17 @@ function HabitList() {
     getTodayHabits();
   }, []);
 
-  const handleCheck = (habitId) => {
+  const handleCheck = async (habitId) => {
     setCheckHabit((prevState) => ({
       ...prevState,
       [habitId]: !prevState[habitId],
     }));
+
+    // try {
+    //   await axios.put(`${BASE_URL}/rewards/`)
+    // }catch(error){
+    //   console.error("Error updating reward points:", error)
+    // }
   };
 
   const sortedHabits = [...habits].sort((a, b) => {

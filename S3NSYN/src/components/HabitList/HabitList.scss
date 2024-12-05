@@ -2,7 +2,6 @@
 @use "../../styles/partials/mixins" as *;
 
 .habit-list {
-
   width: 100%;
 
   &__list {
@@ -20,6 +19,7 @@
     flex-direction: column;
     padding: 0.8rem;
     align-items: center;
+    position: relative;
 
     &--past {
       background-color: $tangerine;
@@ -30,7 +30,6 @@
     }
 
     &--done {
-      flex-direction: row;
       background-color: $peach;
     }
   }
@@ -46,6 +45,8 @@
 
 .checkbox {
   &__label {
+    position: absolute;
+    top: 5.6rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;

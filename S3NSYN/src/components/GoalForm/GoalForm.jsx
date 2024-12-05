@@ -1,5 +1,5 @@
 import "./GoalForm.scss";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
@@ -24,7 +24,7 @@ function GoalForm({ editingGoal, selectedGoal }) {
       return editingGoal.title;
     }
     return selectedGoal?.title == "Customize Goal" ? "" : selectedGoal?.title;
-  });  
+  });
   const [description, setDescription] = useState(
     editingGoal?.description || ""
   );
@@ -97,6 +97,17 @@ function GoalForm({ editingGoal, selectedGoal }) {
   const handleSave = async () => {
     if (!editingGoal) return;
 
+    const isValuesUnchanged =
+      reqBody.title === editingGoal.title &&
+      reqBody.description === editingGoal.description &&
+      endDate === editingGoal.end_time
+
+    // If no changes, navigate back without saving
+    if (isValuesUnchanged) {
+      navigate(`/goal/${editingGoal.id}`); // Go back to the previous page
+      return;
+    }
+
     try {
       const response = await axios.put(
         `${BASE_URL}/goals/${editingGoal.id}`,
@@ -111,7 +122,7 @@ function GoalForm({ editingGoal, selectedGoal }) {
 
       if (response.status === 200) {
         alert("Goal successfully updated!");
-        navigate("/goals");
+        navigate(`/goal/${editingGoal.id}`);
       }
     } catch (error) {
       alert(
@@ -137,16 +148,23 @@ function GoalForm({ editingGoal, selectedGoal }) {
   return (
     <form className="goal-form" onSubmit={handleSubmit}>
       <div className="goal-form__group">
-        <label className="goal-form__label" htmlFor="name">name your goal.</label>
-          <input
-            className="goal-form__name"
-            name="name"
-            id="name"
-            placeholder={ goalTitle ? (goalTitle === "Customize Goal" ? goalTitle : undefined) : "enter your goal."
-            }
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          ></input>
+        <label className="goal-form__label" htmlFor="name">
+          name your goal.
+        </label>
+        <input
+          className="goal-form__name"
+          name="name"
+          id="name"
+          placeholder={
+            goalTitle
+              ? goalTitle === "Customize Goal"
+                ? goalTitle
+                : undefined
+              : "enter your goal."
+          }
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        ></input>
       </div>
 
       <div className="goal-form__group">
