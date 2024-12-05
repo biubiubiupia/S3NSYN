@@ -32,16 +32,12 @@ function SetHabit() {
         {habit.habit}
       </button>
     ));
-    useEffect(()=>{
-      console.log(selectedHabit)
-    },[selected])
 
   return (
     <main className={`page habit ${selected ? "" : "habit--peach"}`}>
-      <Header />
+      {selected? <Header /> : <HeaderBack backto={`/goal/${goalId}`} />}
       <h1 className="habit__header page__title">set specific habits.</h1>
       {goalTitle && <h1 className="habit__goal">{goalTitle}</h1>}
-
       <div className={`habit__group ${selected ? "habit__group--hidden" : ""}`}>
         {renderHabitButtons()}
       </div>

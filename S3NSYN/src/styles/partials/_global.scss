@@ -94,6 +94,8 @@ p {
 }
 
 .button {
+  width: 14rem;
+  height: 5rem;
   border: none;
   border-radius: 3.125rem;
   font-size: 1rem;
@@ -108,16 +110,12 @@ p {
 }
 
 .button-light {
-  width: 14rem;
-  height: 5rem;
   @extend .button;
   background-color: $banane;
   color: $tangerine;
 }
 
 .button-dark {
-  width: 14rem;
-  height: 5rem;
   @extend .button;
   background-color: $tangerine;
   color: $banane;

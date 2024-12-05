@@ -11,18 +11,6 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
   const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
 
-  // const [count, setCount] = useState(0);
-  // const [frequency, setFrequency] = useState(editingHabit?.frequency || "");
-  // const [selectedDays, setSelectedDays] = useState(
-  //   editingHabit?.selectedDays || []
-  // );
-  // const [selectedDates, setSelectedDates] = useState(
-  //   editingHabit?.selectedDates || Array(count).fill(null)
-  // );
-  // const [times, setTimes] = useState(
-  //   editingHabit?.times || Array(count).fill("")
-  // );
-
   const [count, setCount] = useState(editingHabit?.count || 0);
   const [frequency, setFrequency] = useState(editingHabit?.frequency || "");
   const [selectedDays, setSelectedDays] = useState(
@@ -31,14 +19,18 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
   const [selectedDates, setSelectedDates] = useState(
     editingHabit?.selectedDates || Array(editingHabit?.count || 0).fill(null)
   );
-  const [times, setTimes] = useState(editingHabit?.times || Array(count).fill(""));
+  const [times, setTimes] = useState(
+    editingHabit?.times || Array(count).fill("")
+  );
 
   useEffect(() => {
     if (editingHabit) {
       setCount(editingHabit.count || 0);
       setFrequency(editingHabit.frequency || "");
-      setSelectedDays(editingHabit.selectedDays || []);
-      setSelectedDates(editingHabit.selectedDates || Array(editingHabit.count || 0).fill(null));
+      setSelectedDays(editingHabit.weekly_days || []);
+      setSelectedDates(
+        editingHabit.selectedDates || Array(editingHabit.count || 0).fill(null)
+      );
       setTimes(editingHabit.times || Array(editingHabit.count || 0).fill(""));
     }
   }, [editingHabit]);
@@ -48,56 +40,33 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
 
     if (/^\d*$/.test(value)) {
       setCount(value === "" ? 0 : parseInt(value, 10));
-      // setTimes(Array(value === "" ? 0 : parseInt(value, 10)).fill(""));
-      setTimes(Array(countValue).fill(""));
+      setTimes(Array(value).fill(""));
       setSelectedDays([]);
     }
   };
 
   const handleFrequency = (e) => setFrequency(e.target.value);
 
-  // const handleDaySelect = (day) => {
-  //   setSelectedDays((prev) => {
-  //     if (prev.includes(day)) {
-  //       return prev.filter((d) => d !== day);
-  //     } else if (prev.length < count) {
-  //       return [...prev, day];
-  //     }
-  //     return prev;
-  //   });
-  // };
-
   const handleDaySelect = (day) => {
-    setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-    );
+    setSelectedDays((prev) => {
+      if (prev.includes(day)) {
+        return prev.filter((d) => d !== day);
+      } else if (prev.length < count) {
+        return [...prev, day];
+      }
+      return prev;
+    });
   };
 
-  // const handleDateSelect = (date, index) => {
-  //   setSelectedDates((prev) => {
-  //     if (prev.includes(date) && prev[index] !== date) {
-  //       return prev;
-  //     }
-
-  //     const updatedDates = [...prev];
-  //     updatedDates[index] = date;
-  //     return updatedDates;
-  //   });
-  // };
+  // useEffect(() => {
+  //   console.log(selectedDays);
+  // }, []);
 
   const handleDateSelect = (date, index) => {
     const updatedDates = [...selectedDates];
     updatedDates[index] = date;
     setSelectedDates(updatedDates);
   };
-
-  // const handleTimeInput = (time, index) => {
-  //   setTimes((prev) => {
-  //     const updatedTimes = [...prev];
-  //     updatedTimes[index] = time;
-  //     return updatedTimes;
-  //   });
-  // };
 
   const handleTimeInput = (time, index) => {
     const updatedTimes = [...times];
@@ -120,12 +89,13 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
 
     try {
       if (editingHabit) {
-        await axios.post(`${BASE_URL}/habits`, reqBody, {
+        await axios.put(`${BASE_URL}/habits/habit/${editingHabit?.id}`, reqBody, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
+        navigate(`/goal/${editingHabit.goal_id}`);
       } else {
         await axios.post(`${BASE_URL}/habits`, reqBody, {
           headers: {
@@ -133,8 +103,8 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
             "Content-Type": "application/json",
           },
         });
+        navigate(`/goal${goalId}`);
       }
-      navigate(`/goal/${goalId}`);
     } catch (error) {
       alert(error);
     }
@@ -204,6 +174,7 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
               className="habit-form__time"
               index={index}
               handleTimeInput={handleTimeInput}
+              defaultTime={editingHabit?.alert_times?.[index]}
             />
           ))}
         </div>
@@ -212,30 +183,26 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
       {frequency === "weekly" && count > 0 && (
         <div className="habit-form__group">
           <div className="habit-form__weekdays">
-            {Array.from({ length: 7 }).map((_, index) => {
-              const day = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][
-                index
-              ];
-              return (
-                <button
-                  key={index}
-                  type="button"
-                  className={`habit-form__day${
-                    selectedDays.includes(day) ? "--selected" : ""
-                  }`}
-                  onClick={() => handleDaySelect(day)}
-                >
-                  {day}
-                </button>
-              );
-            })}
+            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+              <button
+                key={day}
+                type="button"
+                className={`habit-form__day${
+                  selectedDays.includes(day) ? "--selected" : ""
+                }`}
+                onClick={() => handleDaySelect(day)}
+              >
+                {day}
+              </button>
+            ))}
           </div>
           <label className="habit-form__label">when?</label>
           <TimeInput
             className="habit-form__time"
             index={0}
             handleTimeInput={handleTimeInput}
-          />
+            defaultTime={editingHabit?.alert_times?.[0]}
+            />
         </div>
       )}
 
@@ -260,6 +227,7 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
               className={"habit-form__time"}
               index={0}
               handleTimeInput={handleTimeInput}
+              defaultTime={editingHabit?.alert_times?.[0]}
             />
           </div>
         </div>

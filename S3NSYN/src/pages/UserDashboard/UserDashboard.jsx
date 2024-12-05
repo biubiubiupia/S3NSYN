@@ -49,9 +49,9 @@ function UserDashboard() {
     <main className="page dashboard">
       <Header />
       <div className="dashboard__top">
-        <h2 className="page__title dashboard__title">live your best life.</h2>
+        <h2 className="dashboard__title">live your best life.</h2>
         <button
-          className="dashboard__view button-mini"
+          className="dashboard__view button button-mini"
           onClick={() => navigate("/goals")}
         >
           GOALS

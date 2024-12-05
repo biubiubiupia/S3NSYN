@@ -1,9 +1,15 @@
 import "./TimeInput.scss";
-import { useState} from "react";
+import { useEffect, useState} from "react";
 
-function TimeInput({ className, handleTimeInput, index }) {
-  const [time, setTime] = useState({ hour: "", minute: "", ampm: "am" });
+function TimeInput({ className, handleTimeInput, index, defaultTime }) {
+  const [time, setTime] = useState(defaultTime || { hour: "", minute: "", ampm: "am" });
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (defaultTime) {
+      setTime(defaultTime);
+    }
+  }, [defaultTime]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +31,7 @@ function TimeInput({ className, handleTimeInput, index }) {
     }
   
     setTime(updatedTime);
-    handleTimeInput(updatedTime, index); // Pass the updated state directly
+    handleTimeInput(updatedTime, index); 
   };
 
   return (

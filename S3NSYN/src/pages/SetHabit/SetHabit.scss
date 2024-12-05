@@ -25,7 +25,7 @@
   }
 
   &__name {
-    @extend .button;
+    @extend .button-light;
     width: 100%;
     margin-bottom: 1rem;
     background-color: $banane;

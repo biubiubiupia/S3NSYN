@@ -4,6 +4,22 @@
 .dashboard {
   background-color: $banane;
 
+  &__top{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    margin: 0;
+  }
+
+  &__view{
+    width: 100%;
+  }
+
   &__guide {
     display: flex;
     gap: 1rem;
@@ -36,23 +52,7 @@
 
   &__signal {
     color: $berry;
-  }
-
-  &__top{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  &__title {
-    margin: 0;
-    width: 90%
-  }
-
-  &__view{
-    width: 100%;
+    font-size: 1rem;
   }
 
   &__section {

@@ -39,7 +39,6 @@ function SetReward() {
 
     try {
       if (editingReward) {
-        // Update existing reward
         await axios.put(`${BASE_URL}/rewards/${editingReward.id}`, reqBody, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,7 +47,6 @@ function SetReward() {
         });
         navigate(-1);
       } else {
-        // Create new reward
         await axios.post(`${BASE_URL}/rewards`, reqBody, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -76,7 +74,7 @@ function SetReward() {
       <h1 className="reward__header page__header">
         when you accomplish your goal.
       </h1>
-      <h1 className="reward__goal">{goalTitle}</h1>
+      <h2 className="reward__goal">{goalTitle}</h2>
 
       <div
         className={`${

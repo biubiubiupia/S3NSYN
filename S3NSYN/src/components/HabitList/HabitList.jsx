@@ -2,14 +2,30 @@ import "./HabitList.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function HabitList() {
+  const token = localStorage.getItem("authToken");
+  const [habits, setHabits] = useState([]);
   const [checkHabit, setCheckHabit] = useState({});
 
-  const defaultHabits = [
-    { id: 1, title: "Write for 15 mins", time: "8:00 AM" },
-    { id: 2, title: "Meditate for 10 mins", time: "2:00 PM" },
-    { id: 3, title: "Brush hair 50 times", time: "9:00 PM" },
-  ];
+  const getTodayHabits = async () => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/habits/today`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setHabits(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getTodayHabits();
+  }, []);
 
   const handleCheck = (habitId) => {
     setCheckHabit((prevState) => ({
@@ -18,7 +34,7 @@ function HabitList() {
     }));
   };
 
-  const sortedHabits = [...defaultHabits].sort((a, b) => {
+  const sortedHabits = [...habits].sort((a, b) => {
     const isCheckedA = checkHabit[a.id] || false;
     const isCheckedB = checkHabit[b.id] || false;
 
@@ -45,7 +61,7 @@ function HabitList() {
             const habitTime = new Date(
               `${new Date().toLocaleDateString()} ${habit.time}`
             );
-            const isChecked = checkHabit[habit.id] || false; 
+            const isChecked = checkHabit[habit.id] || false;
             return (
               <li
                 key={habit.id}
