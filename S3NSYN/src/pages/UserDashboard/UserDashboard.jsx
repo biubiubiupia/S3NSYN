@@ -49,7 +49,7 @@ function UserDashboard() {
     <main className="page dashboard">
       <Header />
       <div className="dashboard__top">
-        <h1 className="page__title dashboard__title">live your best life.</h1>
+        <h2 className="page__title dashboard__title">live your best life.</h2>
         <button
           className="dashboard__view button-mini"
           onClick={() => navigate("/goals")}
@@ -73,7 +73,7 @@ function UserDashboard() {
         </div>
       </div>
       <section className="dashboard__reward dashboard__section ">
-        <h1 className="page__header dashboard__header">eyes on the reward.</h1>
+        <h2 className="page__header dashboard__header">eyes on the reward.</h2>
         <RewardProgress rewards={rewards}></RewardProgress>
       </section>
       <button className="button button-mini" onClick={handleLogOut}>LOG OUT</button>

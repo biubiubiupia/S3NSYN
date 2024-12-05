@@ -1,6 +1,6 @@
 import "./Guide.scss";
 import { useNavigate } from "react-router-dom";
-import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
+import Header from "../../components/Header/Header";
 
 function Guide() {
   const navigate = useNavigate();
@@ -16,11 +16,7 @@ function Guide() {
 
   return (
     <main className="page guide">
-      <img
-        className="logo-top guide__logo"
-        src={logoDark}
-        alt="S3NSYN logo"
-      ></img>
+      <Header/>
       <h1 className="guide__header">how this works.</h1>
       <div className="guide__text">
         <p>

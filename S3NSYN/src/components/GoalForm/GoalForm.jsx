@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 function GoalForm({ editingGoal, selectedGoal }) {
@@ -215,14 +216,14 @@ function GoalForm({ editingGoal, selectedGoal }) {
         )}
       </div>
       {!editingGoal && (
-        <button className="button button-dark goal-form__save" type="submit">
+        <button className="button button-dark goal-form__next" type="submit">
           NEXT STEP
         </button>
       )}
       {editingGoal && (
         <div className="goal-form__buttons">
           <button
-            className="button button-dark goal-form__delete"
+            className="button button-dark goal-form__save"
             type="button"
             onClick={handleSave}
           >

@@ -12,6 +12,11 @@
     margin-bottom: 1rem;
   }
 
+  &__title{
+    color:$kiwi;
+    text-transform: uppercase;
+  }
+
   &__header {
     margin: 0;
     align-self: flex-start;

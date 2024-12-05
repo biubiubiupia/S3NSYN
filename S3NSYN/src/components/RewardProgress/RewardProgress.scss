@@ -3,7 +3,7 @@
 @use "../../styles/partials/global" as *;
 
 .reward {
-  &__container{
+  &__list{
     list-style-type: none;
     display: flex;
     flex-direction: column;
@@ -12,21 +12,30 @@
 
   &__box {
     @extend .button;
+    background-color: $kiwi;
     width: 100%;
     height: 5rem;
     margin-bottom: 1rem;
     padding: 0.5rem 1rem;
-    border: solid 5px $tangerine ;
+    // border: solid 5px $tangerine ;
     border-radius: 3.125rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: .5rem;
+
+    &:hover{
+      background-color: $berry;
+    }
   }
 
   &__title {
-    color: $kiwi;
-    font-weight: 800;
+    color: $banane;
+    font-size: 1.125rem;
+    font-weight: 600;
     margin-left: 10%;
+    text-transform: capitalize;
+    
   }
 }
 
@@ -37,7 +46,7 @@
 }
 
 .CircularProgressbar .CircularProgressbar-path {
-  stroke: $peach; // Change the progress color
+  stroke: $tangerine; // Change the progress color
   stroke-width: 0.6rem; // Change the stroke width
   background-color: $berry;
 }
@@ -48,7 +57,7 @@
 
 .CircularProgressbar .CircularProgressbar-text {
   font-size: 1.5rem; // Adjust text size
-  fill: $tangerine; // Change text color
+  fill: $banane; // Change text color
 }
 
 .CircularProgressbar.CircularProgressbar-inverted

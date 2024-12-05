@@ -16,8 +16,6 @@ function SetReward() {
   const editingReward = location.state?.reward;
 
   const [selected, setSelected] = useState(null);
-  // const [title, setTitle] = useState(editingReward?.title || "");
-  // const [description, setDescription] = useState(editingReward?.description || "");
 
   const defaultRewards = [
     { id: 1, reward: "Take a Trip" },
@@ -30,16 +28,12 @@ function SetReward() {
     setSelected((prev) => (prev === id ? null : id));
   };
 
-  // const handleInputChange = (setter) => (e) => {
-  //   setter(e.target.value);
-  // };
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     const reqBody = {
       title: e.target.title.value,
-      description : e.target.description.value,
+      description: e.target.description.value,
       goal_id: goalId,
     };
 
@@ -68,7 +62,9 @@ function SetReward() {
     }
   };
 
-  const selectedReward = defaultRewards.find((reward) => reward.id === selected);
+  const selectedReward = defaultRewards.find(
+    (reward) => reward.id === selected
+  );
 
   return (
     <main
@@ -76,7 +72,7 @@ function SetReward() {
         selected || editingReward ? "reward--berry" : ""
       }`}
     >
-      {selected? (<Header/>):(<HeaderBack backto={-1} />)}
+      {editingReward ? <HeaderBack backto={-1} /> : <Header />}
       <h1 className="reward__header page__header">
         when you accomplish your goal.
       </h1>

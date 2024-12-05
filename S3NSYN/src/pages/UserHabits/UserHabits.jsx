@@ -76,7 +76,7 @@ function UserHabits() {
     <main className="page habits">
       <HeaderBack backto={"/goals"} />
       <div className="habits__top">
-        <h1 className="habits__header page__header">{goal?.title}</h1>
+        <h1 className="habits__title page__header">{goal?.title}</h1>
         <button
           className="button-mini habits__edit"
           onClick={() => navigate(`/goal/${goalId}/edit`)}

@@ -1,62 +1,108 @@
 import "./HabitForm.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import TimeInput from "../TimeInput/TimeInput";
 import DateDropdown from "../DateDropdown/DateDropdown";
+
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 function HabitForm({ goalId, selectedHabit, editingHabit }) {
   const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
 
-  const [count, setCount] = useState(0);
-  const [frequency, setFrequency] = useState("");
-  const [selectedDays, setSelectedDays] = useState([]);
-  const [selectedDates, setSelectedDates] = useState(Array(count).fill(null));
-  const [times, setTimes] = useState([]);
+  // const [count, setCount] = useState(0);
+  // const [frequency, setFrequency] = useState(editingHabit?.frequency || "");
+  // const [selectedDays, setSelectedDays] = useState(
+  //   editingHabit?.selectedDays || []
+  // );
+  // const [selectedDates, setSelectedDates] = useState(
+  //   editingHabit?.selectedDates || Array(count).fill(null)
+  // );
+  // const [times, setTimes] = useState(
+  //   editingHabit?.times || Array(count).fill("")
+  // );
+
+  const [count, setCount] = useState(editingHabit?.count || 0);
+  const [frequency, setFrequency] = useState(editingHabit?.frequency || "");
+  const [selectedDays, setSelectedDays] = useState(
+    editingHabit?.selectedDays || []
+  );
+  const [selectedDates, setSelectedDates] = useState(
+    editingHabit?.selectedDates || Array(editingHabit?.count || 0).fill(null)
+  );
+  const [times, setTimes] = useState(editingHabit?.times || Array(count).fill(""));
+
+  useEffect(() => {
+    if (editingHabit) {
+      setCount(editingHabit.count || 0);
+      setFrequency(editingHabit.frequency || "");
+      setSelectedDays(editingHabit.selectedDays || []);
+      setSelectedDates(editingHabit.selectedDates || Array(editingHabit.count || 0).fill(null));
+      setTimes(editingHabit.times || Array(editingHabit.count || 0).fill(""));
+    }
+  }, [editingHabit]);
 
   const handleCount = (e) => {
     const value = e.target.value;
-  
+
     if (/^\d*$/.test(value)) {
       setCount(value === "" ? 0 : parseInt(value, 10));
-      setTimes(Array(value === "" ? 0 : parseInt(value, 10)).fill(""));
+      // setTimes(Array(value === "" ? 0 : parseInt(value, 10)).fill(""));
+      setTimes(Array(countValue).fill(""));
       setSelectedDays([]);
     }
   };
 
   const handleFrequency = (e) => setFrequency(e.target.value);
 
+  // const handleDaySelect = (day) => {
+  //   setSelectedDays((prev) => {
+  //     if (prev.includes(day)) {
+  //       return prev.filter((d) => d !== day);
+  //     } else if (prev.length < count) {
+  //       return [...prev, day];
+  //     }
+  //     return prev;
+  //   });
+  // };
+
   const handleDaySelect = (day) => {
-    setSelectedDays((prev) => {
-      if (prev.includes(day)) {
-        return prev.filter((d) => d !== day);
-      } else if (prev.length < count) {
-        return [...prev, day];
-      }
-      return prev;
-    });
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
   };
+
+  // const handleDateSelect = (date, index) => {
+  //   setSelectedDates((prev) => {
+  //     if (prev.includes(date) && prev[index] !== date) {
+  //       return prev;
+  //     }
+
+  //     const updatedDates = [...prev];
+  //     updatedDates[index] = date;
+  //     return updatedDates;
+  //   });
+  // };
 
   const handleDateSelect = (date, index) => {
-    setSelectedDates((prev) => {
-      if (prev.includes(date) && prev[index] !== date) {
-        return prev;
-      }
-
-      const updatedDates = [...prev];
-      updatedDates[index] = date;
-      return updatedDates;
-    });
+    const updatedDates = [...selectedDates];
+    updatedDates[index] = date;
+    setSelectedDates(updatedDates);
   };
 
+  // const handleTimeInput = (time, index) => {
+  //   setTimes((prev) => {
+  //     const updatedTimes = [...prev];
+  //     updatedTimes[index] = time;
+  //     return updatedTimes;
+  //   });
+  // };
+
   const handleTimeInput = (time, index) => {
-    setTimes((prev) => {
-      const updatedTimes = [...prev];
-      updatedTimes[index] = time;
-      return updatedTimes;
-    });
+    const updatedTimes = [...times];
+    updatedTimes[index] = time;
+    setTimes(updatedTimes);
   };
 
   const handleSubmit = async (e) => {
@@ -64,7 +110,7 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
 
     const reqBody = {
       title: e.target.title.value,
-      frequency: e.target.frequency.value,
+      frequency,
       count,
       selectedDays,
       selectedDates,
@@ -73,13 +119,21 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
     };
 
     try {
-      await axios.post(`${BASE_URL}/habits`, reqBody, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
+      if (editingHabit) {
+        await axios.post(`${BASE_URL}/habits`, reqBody, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      } else {
+        await axios.post(`${BASE_URL}/habits`, reqBody, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+      }
       navigate(`/goal/${goalId}`);
     } catch (error) {
       alert(error);
@@ -102,7 +156,10 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
               : undefined
           }
           defaultValue={
-            editingHabit?.title || (selectedHabit?.habit !== "Customize Habit" ? selectedHabit : undefined)
+            editingHabit?.title ||
+            (selectedHabit?.habit !== "Customize Habit"
+              ? selectedHabit
+              : undefined)
           }
         />
       </div>

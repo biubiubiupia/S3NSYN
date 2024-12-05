@@ -2,6 +2,7 @@ import "./SetHabit.scss";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HeaderBack from "../../components/HeaderBack/HeaderBack";
+import Header from "../../components/Header/Header";
 import HabitForm from "../../components/HabitForm/HabitForm";
 
 function SetHabit() {
@@ -37,7 +38,7 @@ function SetHabit() {
 
   return (
     <main className={`page habit ${selected ? "" : "habit--peach"}`}>
-      <HeaderBack backto={`/goal/${goalId}`} />
+      <Header />
       <h1 className="habit__header page__title">set specific habits.</h1>
       {goalTitle && <h1 className="habit__goal">{goalTitle}</h1>}
 

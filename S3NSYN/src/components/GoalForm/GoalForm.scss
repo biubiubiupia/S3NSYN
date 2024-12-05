@@ -45,19 +45,15 @@
     flex-grow: 1;
   }
 
+  &__next {
+    align-self: center;
+  }
+
   &__buttons {
     width: 100%;
     display: flex;
     gap: 1rem;
     justify-content: space-evenly;
-  }
-
-  &__save {
-    align-self: center;
-  }
-
-  &__delete{
-    background-color: $berry;
   }
 }
 
