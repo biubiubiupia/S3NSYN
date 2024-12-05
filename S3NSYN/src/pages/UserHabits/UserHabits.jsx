@@ -68,6 +68,10 @@ function UserHabits() {
     getReward();
   }, []);
 
+  // useEffect(() => {
+  //   console.log(reward);
+  // }, []);
+
   return (
     <main className="page habits">
       <HeaderBack backto={"/goals"} />
@@ -86,7 +90,9 @@ function UserHabits() {
           <button
             key={habit.id}
             className="habits__name button-dark"
-            onClick={() => navigate(`/habit/${habit.id}/edit`)}
+            onClick={() =>
+              navigate(`/habit/${habit.id}/edit`, { state: { goalId } })
+            }
           >
             {habit.title}
           </button>
@@ -95,12 +101,15 @@ function UserHabits() {
           className="habits__add button-dark"
           onClick={() => navigate("/set-habit", { state: { goalId } })}
         >
-          ADD
+          ADD HABIT
         </button>
       </div>
       <section className="habits__section">
-        <h1 className="page__header habits__header">reward progress.</h1>
-        <RewardProgress rewards={[reward]}/>
+        <h2 className="page__header habits__header">reward progress.</h2>
+        {reward && Object.keys(reward).length !== 0 && (
+          <RewardProgress rewards={[reward]} />
+        )}
+        {reward && Object.keys(reward).length === 0 && <button className="button button-dark habits__add" onClick={()=>navigate("/set-reward", { state: { goalId } })}>ADD Reward</button>}
       </section>
     </main>
   );

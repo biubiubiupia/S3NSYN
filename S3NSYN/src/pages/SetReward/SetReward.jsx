@@ -2,16 +2,22 @@ import "./SetReward.scss";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
+import HeaderBack from "../../components/HeaderBack/HeaderBack";
+import Header from "../../components/Header/Header";
+
 let BASE_URL = import.meta.env.VITE_API_URL;
 
 function SetReward() {
   const token = localStorage.getItem("authToken");
+  const navigate = useNavigate();
   const location = useLocation();
   const goalId = location.state?.goalId;
   const goalTitle = location.state?.title;
-  const navigate = useNavigate();
+  const editingReward = location.state?.reward;
+
   const [selected, setSelected] = useState(null);
+  // const [title, setTitle] = useState(editingReward?.title || "");
+  // const [description, setDescription] = useState(editingReward?.description || "");
 
   const defaultRewards = [
     { id: 1, reward: "Take a Trip" },
@@ -24,21 +30,31 @@ function SetReward() {
     setSelected((prev) => (prev === id ? null : id));
   };
 
-  const selectedReward = defaultRewards.find(
-    (reward) => reward.id === selected
-  );
+  // const handleInputChange = (setter) => (e) => {
+  //   setter(e.target.value);
+  // };
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    if (selectedReward) {
-      const reqBody = {
-        title: e.target.title.value,
-        description: e.target.title.value,
-        goal_id: goalId,
-      };
+    const reqBody = {
+      title: e.target.title.value,
+      description : e.target.description.value,
+      goal_id: goalId,
+    };
 
-      try {
+    try {
+      if (editingReward) {
+        // Update existing reward
+        await axios.put(`${BASE_URL}/rewards/${editingReward.id}`, reqBody, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        navigate(-1);
+      } else {
+        // Create new reward
         await axios.post(`${BASE_URL}/rewards`, reqBody, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,28 +62,30 @@ function SetReward() {
           },
         });
         navigate("/set-habit", { state: { goalId, goalTitle } });
-      } catch (error) {
-        console.error("Error setting the reward", error);
       }
-    } else {
-      alert("Please define a reward before proceeding.");
+    } catch (error) {
+      console.error("Error setting the reward", error);
     }
   };
 
+  const selectedReward = defaultRewards.find((reward) => reward.id === selected);
+
   return (
-    <main className="page reward">
-      <img
-        className="logo-top reward__logo"
-        src={logoDark}
-        alt="S3NSYN logo"
-      ></img>
+    <main
+      className={`page reward ${
+        selected || editingReward ? "reward--berry" : ""
+      }`}
+    >
+      {selected? (<Header/>):(<HeaderBack backto={-1} />)}
       <h1 className="reward__header page__header">
         when you accomplish your goal.
       </h1>
       <h1 className="reward__goal">{goalTitle}</h1>
 
       <div
-        className={`${selected ? "reward__group--hidden" : "reward__group"}`}
+        className={`${
+          selected || editingReward ? "reward__group--hidden" : "reward__group"
+        }`}
       >
         {defaultRewards.map((reward) => (
           <button
@@ -82,9 +100,9 @@ function SetReward() {
         ))}
       </div>
 
-      {selected && (
+      {(selected || editingReward) && (
         <div>
-          <form className="reward__form" onSubmit={handleSubmit}>
+          <form className="reward__form" onSubmit={handleFormSubmit}>
             <div className="reward__group">
               <label className="reward__label" htmlFor="title">
                 your reward.
@@ -93,15 +111,18 @@ function SetReward() {
                 className="reward__input"
                 name="title"
                 id="title"
+                // onChange={handleInputChange(setTitle)}
                 placeholder={
-                  selectedReward.reward === "Customize Reward"
+                  selectedReward?.reward === "Customize Reward"
                     ? selectedReward.reward
                     : undefined
                 }
                 defaultValue={
-                  selectedReward.reward !== "Customize Reward"
-                    ? selectedReward.reward
-                    : undefined
+                  editingReward
+                    ? editingReward.title
+                    : selectedReward?.reward !== "Customize Reward"
+                    ? selectedReward?.reward
+                    : ""
                 }
               />
             </div>
@@ -114,11 +135,13 @@ function SetReward() {
                 className="reward__textarea"
                 name="description"
                 id="description"
+                // onChange={handleInputChange(setDescription)}
                 placeholder="Describe your feelings here."
+                defaultValue={editingReward?.description || ""}
               ></textarea>
             </div>
             <button className="button-dark reward__button" type="submit">
-              Next Step
+              {editingReward ? "Save" : "Submit"}
             </button>
           </form>
         </div>

@@ -6,7 +6,7 @@ import TimeInput from "../TimeInput/TimeInput";
 import DateDropdown from "../DateDropdown/DateDropdown";
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-function HabitForm({ goalId, selectedHabit }) {
+function HabitForm({ goalId, selectedHabit, editingHabit }) {
   const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
 
@@ -97,14 +97,12 @@ function HabitForm({ goalId, selectedHabit }) {
           name="title"
           id="title"
           placeholder={
-            selectedHabit.habit === "Customize Habit"
-              ? selectedHabit.habit
+            selectedHabit?.habit === "Customize Habit"
+              ? selectedHabit?.habit
               : undefined
           }
           defaultValue={
-            selectedHabit.habit !== "Customize Habit"
-              ? selectedHabit.habit
-              : undefined
+            editingHabit?.title || (selectedHabit?.habit !== "Customize Habit" ? selectedHabit : undefined)
           }
         />
       </div>

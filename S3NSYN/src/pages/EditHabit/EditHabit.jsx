@@ -1,29 +1,51 @@
 import "./EditHabit.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import logoDark from "../../assets/logos/S3NSYN-logo-dark.png";
 import HeaderBack from "../../components/HeaderBack/HeaderBack";
+import HabitForm from "../../components/HabitForm/HabitForm";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 function EditHabit() {
+  const token = localStorage.getItem("authToken");
   const { habitId } = useParams();
+  const location = useLocation();
+  const goalId = location.state?.goalId;
+  const [habit, setHabit] = useState({});
 
-  const defaultHabits = [
-    { id: 1, habit: "Write for 15 mins" },
-    { id: 2, habit: "Meditate for 10 mins" },
-    { id: 4, habit: "Brush hair 50 times" },
-  ];
+  const getHabit = async () => {
+    try {
+      const {data} = await axios.get(`${BASE_URL}/habits/habit/${habitId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setHabit(data);
+    } catch (error) {
+      console.error("Error fetching habit:", error);
+    }
+  };
 
-  const habit = defaultHabits[habitId];
+  useEffect(() => {
+    getHabit();
+  }, []);
+
+  useEffect(() => {
+    console.log(habit);
+  }, [habit]);
+
+  // const habit = defaultHabits[habitId];
 
   return (
     <main className="page habit">
-      <HeaderBack></HeaderBack>
+      <HeaderBack backto={`/goal/${goalId}`}></HeaderBack>
       <h1 className="habit__header page__header">let's get specific.</h1>
 
-      <form className="habit__form">
+      <HabitForm editingHabit={habit} />
+
+      {/* <form className="habit__form">
         <div className="habit__group">
           <label className="habit__label" htmlFor="title">
             Your habit:
@@ -88,7 +110,7 @@ function EditHabit() {
             Delete
           </button>
         </div>
-      </form>
+      </form> */}
     </main>
   );
 }

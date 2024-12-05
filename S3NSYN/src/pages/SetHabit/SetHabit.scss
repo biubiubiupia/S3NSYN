@@ -5,6 +5,10 @@
 .habit {
   background-color: $berry;
 
+  &--peach {
+    background-color: $peach;
+  }
+
   &__goal {
     text-transform: uppercase;
   }

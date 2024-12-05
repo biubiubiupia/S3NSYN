@@ -26,11 +26,10 @@ function UserDashboard() {
     }
   };
 
-  const defaultRewards = [
-    { id: 1, title: "Buy a Birkin", points: 599 },
-    { id: 2, title: "Go to TS Concert", points: 400 },
-    { id: 3, title: "Eat a Whole Pizza Pie", points: 500 },
-  ];
+  const handleLogOut = () => {
+    localStorage.removeItem("authToken");
+    navigate("/");
+  };
 
   useEffect(() => {
     if (!token) {
@@ -45,7 +44,7 @@ function UserDashboard() {
   // useEffect(() => {
   //   console.log(rewards);
   // }, [rewards]);
-  
+
   return (
     <main className="page dashboard">
       <Header />
@@ -59,10 +58,25 @@ function UserDashboard() {
         </button>
       </div>
       <HabitList></HabitList>
+      <div className="dashboard__guide">
+        <div className="dashboard__block">
+          <span className="dashboard__color dashboard__color--past"></span>
+          <p className="dashboard__signal">past due</p>
+        </div>
+        <div className="dashboard__block">
+          <span className="dashboard__color dashboard__color--due"></span>
+          <p className="dashboard__signal">upcoming</p>
+        </div>
+        <div className="dashboard__block">
+          <span className="dashboard__color dashboard__color--checked"></span>
+          <p className="dashboard__signal">completed</p>
+        </div>
+      </div>
       <section className="dashboard__reward dashboard__section ">
         <h1 className="page__header dashboard__header">eyes on the reward.</h1>
         <RewardProgress rewards={rewards}></RewardProgress>
       </section>
+      <button className="button button-mini" onClick={handleLogOut}>LOG OUT</button>
     </main>
   );
 }

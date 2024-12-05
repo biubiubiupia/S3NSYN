@@ -24,16 +24,16 @@ function Guide() {
       <h1 className="guide__header">how this works.</h1>
       <div className="guide__text">
         <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore
-          aspernatur dolorum cupiditate fugit itaque, ratione, qui tenetur vitae
-          voluptatibus inventore aut nam laboriosam accusantium assumenda atque
-          minima iure, consectetur aliquam!
+          Welcome to S3NSYN!<br></br> Start by creating a goal and breaking it into
+          habits. <br></br>Set how often you’ll do each habit—daily, weekly, or
+          monthly—and choose reminder times to stay on track.
         </p>
         <p className="guide__text">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore
-          aspernatur dolorum cupiditate fugit itaque, ratione, qui tenetur vitae
-          voluptatibus inventore aut nam laboriosam accusantium assumenda atque
-          minima iure, consectetur aliquam!
+          Mark habits as completed to earn points toward rewards you create,
+          like a treat or celebration. Check your dashboard daily to see
+          upcoming habits and track progress. <br></br>Need ideas? Explore suggested
+          activities to add variety to your routine. S3NSYN makes building
+          habits simple and rewarding—start achieving your goals today!
         </p>
       </div>
       <button

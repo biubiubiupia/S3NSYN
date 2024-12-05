@@ -4,6 +4,40 @@
 .dashboard {
   background-color: $banane;
 
+  &__guide {
+    display: flex;
+    gap: 1rem;
+
+  }
+
+  &__block {
+    display: flex;
+    align-items: center;
+  }
+
+  &__color{
+    border-radius: 2px;
+    width: .5rem;
+    height: .5rem;
+    margin-right: 0.5rem;
+
+    &--past {
+      background-color: $tangerine;
+    }
+
+    &--due {
+      background-color: $kiwi;
+    }
+
+    &--checked {
+      background-color: $peach;
+    }
+  }
+
+  &__signal {
+    color: $berry;
+  }
+
   &__top{
     width: 100%;
     display: flex;

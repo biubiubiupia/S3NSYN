@@ -17,7 +17,7 @@ function HomePage() {
   return (
     <main className="page homepage">
       <img className="logo-main homepage__logo" src={logoDark} alt="S3NSYN logo"></img>
-      <h1 className="homepage__tagline">吾日三省吾身.</h1>
+      <h1 className="homepage__tagline">DESIGN YOUR LIFE.</h1>
       <button className="button-light homepage__button" onClick={() => {navigate("/signup")}}>SIGN UP</button>
       <button className="button-light homepage__button" onClick={() => {navigate("/login")}}>LOG IN</button>
     </main>

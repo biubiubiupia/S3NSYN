@@ -5,6 +5,10 @@
 .reward {
   background-color: $peach;
 
+  &--berry{
+    background-color: $berry;
+  }
+
   &__goal{
     text-transform: uppercase;
   }

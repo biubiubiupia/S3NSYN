@@ -1,14 +1,12 @@
 import "./SetHabit.scss";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import HeaderBack from "../../components/HeaderBack/HeaderBack";
 import HabitForm from "../../components/HabitForm/HabitForm";
 
 function SetHabit() {
   const location = useLocation();
-  const goalId = location.state?.goalId;
-  const goalTitle = location.state?.goalTitle;
+  const { goalId, goalTitle } = location.state || {};
 
   const [selected, setSelected] = useState(null);
 
@@ -19,33 +17,40 @@ function SetHabit() {
     { id: 4, habit: "Customize Habit" },
   ];
 
-  const handleSelect = (id) => {
-    setSelected((prev) => (prev === id ? null : id));
-  };
+  const handleSelect = (id) => setSelected((prev) => (prev === id ? null : id));
 
   const selectedHabit = defaultHabits.find((habit) => habit.id === selected);
 
+  const renderHabitButtons = () =>
+    defaultHabits.map((habit) => (
+      <button
+        key={habit.id}
+        className={`habit__name ${selected === habit.id ? "habit__name--active" : ""}`}
+        onClick={() => handleSelect(habit.id)}
+      >
+        {habit.habit}
+      </button>
+    ));
+    useEffect(()=>{
+      console.log(selectedHabit)
+    },[selected])
+
   return (
-    <main className="page habit">
+    <main className={`page habit ${selected ? "" : "habit--peach"}`}>
       <HeaderBack backto={`/goal/${goalId}`} />
       <h1 className="habit__header page__title">set specific habits.</h1>
-      {goalTitle && ( <h1 className="habit__goal">{goalTitle}</h1>)}
-      <div className={`${selected ? "habit__group--hidden" : "habit__group"}`}>
-        {defaultHabits.map((habit) => (
-          <button
-            key={habit.id}
-            className={`${
-              selected === habit.id ? "habit__name--active" : "habit__name"
-            }`}
-            onClick={() => handleSelect(habit.id)}
-          >
-            {habit.habit}
-          </button>
-        ))}
+      {goalTitle && <h1 className="habit__goal">{goalTitle}</h1>}
+
+      <div className={`habit__group ${selected ? "habit__group--hidden" : ""}`}>
+        {renderHabitButtons()}
       </div>
 
       {selected && (
-        <HabitForm goalId={goalId} selectedHabit={selectedHabit} className="habit__form"/>
+        <HabitForm
+          goalId={goalId}
+          selectedHabit={selectedHabit}
+          className="habit__form"
+        />
       )}
     </main>
   );
