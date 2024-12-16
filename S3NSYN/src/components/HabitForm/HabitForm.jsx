@@ -25,7 +25,6 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
 
   useEffect(() => {
     if (editingHabit) {
-      // console.log(editingHabit);
       setCount(editingHabit.count || 0);
       setFrequency(editingHabit.frequency || "");
       setSelectedDays(editingHabit.weekly_days || []);
@@ -91,7 +90,6 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
 
     try {
       if (editingHabit) {
-        // console.log(reqBody);
         await axios.put(
           `${BASE_URL}/habits/habit/${editingHabit?.id}`,
           reqBody,

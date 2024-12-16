@@ -13,12 +13,11 @@ function GoalForm({ editingGoal, selectedGoal }) {
 
   // For Set Goal/Add Goal
   const goalTitle = selectedGoal?.title;
-
   const [startDate, setStartDate] = useState(() =>
     editingGoal?.start_time ? new Date(editingGoal.start_time) : new Date()
   );
   const [num, setNum] = useState();
-  const [timeframe, setTimeframe] = useState("day");
+  const [frequency, setFrequency] = useState("day");
   const [title, setTitle] = useState(() => {
     if (editingGoal?.title) {
       return editingGoal.title;
@@ -30,28 +29,32 @@ function GoalForm({ editingGoal, selectedGoal }) {
   );
 
   // For Edit Goal
-  const [endDate, setEndDate] = useState(editingGoal?.end_time || new Date());
+  const [endDate, setEndDate] = useState(() =>
+    editingGoal?.end_time ? new Date(editingGoal.end_time) : null
+  );
+  const isTimeHidden = editingGoal || frequency === "custom";
 
-  const isTimeHidden = editingGoal || timeframe === "custom";
-
-  const calculateEndTime = (start, timeframe, num, customEndDate) => {
-    switch (timeframe) {
+  //For Add New Goal
+  const calculateEndTime = (start, frequency, num, customEndDate) => {
+    switch (frequency) {
       case "day":
-        return new Date(start.setDate(start.getDate() + num));
+        return new Date(start.getTime() + num * 24 * 60 * 60 * 1000); // Add days
       case "week":
-        return new Date(start.setDate(start.getDate() + num * 7));
+        return new Date(start.getTime() + num * 7 * 24 * 60 * 60 * 1000); // Add weeks
       case "month":
-        return new Date(start.setMonth(start.getMonth() + num));
+        const endDate = new Date(start);
+        endDate.setMonth(endDate.getMonth() + num); // Add months
+        return endDate;
       case "custom":
-        return customEndDate;
+        return new Date(customEndDate); // Ensure this is always a Date
       default:
-        throw new Error("Invalid timeframe selected.");
+        throw new Error("Invalid frequency selected.");
     }
   };
 
   const endTime = calculateEndTime(
     new Date(startDate),
-    timeframe,
+    frequency,
     num,
     endDate
   );
@@ -60,7 +63,8 @@ function GoalForm({ editingGoal, selectedGoal }) {
     title,
     description,
     start_time: startDate.getTime(),
-    end_time: endTime.getTime(),
+    end_time:
+      endTime instanceof Date && !isNaN(endTime) ? endTime.getTime() : null,
   };
 
   const handleSubmit = async (e) => {
@@ -72,6 +76,11 @@ function GoalForm({ editingGoal, selectedGoal }) {
 
     if (!num) {
       alert("Please select an end time.");
+    }
+
+    if (!endTime || isNaN(endTime.getTime())) {
+      alert("Please select a valid end date.");
+      return;
     }
 
     try {
@@ -100,11 +109,11 @@ function GoalForm({ editingGoal, selectedGoal }) {
     const isValuesUnchanged =
       reqBody.title === editingGoal.title &&
       reqBody.description === editingGoal.description &&
-      endDate === editingGoal.end_time
+      startDate.getTime() === editingGoal.start_time &&
+      endDate.getTime() === editingGoal.end_time;
 
-    // If no changes, navigate back without saving
     if (isValuesUnchanged) {
-      navigate(`/goal/${editingGoal.id}`); // Go back to the previous page
+      navigate(`/goal/${editingGoal.id}`);
       return;
     }
 
@@ -210,13 +219,13 @@ function GoalForm({ editingGoal, selectedGoal }) {
             min="1"
             max="9999"
             value={num}
-            onChange={(e) => setNum(Number(e.target.value))}
+            onChange={(e) => setNum(Number(e.target.value) || "")}
           />
           <select
             className="goal-form__select"
             id="timeframe"
-            value={timeframe}
-            onChange={(e) => setTimeframe(e.target.value)}
+            value={frequency}
+            onChange={(e) => setFrequency(e.target.value)}
           >
             <option value="day">Day(s)</option>
             <option value="week">Week(s)</option>
@@ -224,7 +233,7 @@ function GoalForm({ editingGoal, selectedGoal }) {
             <option value="custom">Custom</option>
           </select>
         </div>
-        {(timeframe === "custom" || editingGoal) && (
+        {(frequency === "custom" || editingGoal) && (
           <DatePicker
             className="goal-form__end"
             selected={endDate}

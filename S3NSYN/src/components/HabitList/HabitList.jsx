@@ -4,7 +4,7 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-function HabitList() {
+function HabitList({ getAllRewards }) {
   const token = localStorage.getItem("authToken");
   const [habits, setHabits] = useState([]);
   const [checkHabit, setCheckHabit] = useState({});
@@ -28,17 +28,32 @@ function HabitList() {
   }, []);
 
   const handleCheck = async (habitId) => {
+    const isChecked = !checkHabit[habitId];
+
     setCheckHabit((prevState) => ({
       ...prevState,
-      [habitId]: !prevState[habitId],
+      [habitId]: isChecked,
     }));
 
-    // try {
-    //   await axios.put(`${BASE_URL}/rewards/`)
-    // }catch(error){
-    //   console.error("Error updating reward points:", error)
-    // }
+    const action = isChecked ? "subtract" : "add";
+    try {
+      await axios.put(
+        `${BASE_URL}/rewards/${habitId}/update`,
+        { action },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      getAllRewards();
+    } catch (error) {
+      console.error("Error updating reward points:", error);
+    }
   };
+
+  console.log(habits)
 
   const sortedHabits = [...habits].sort((a, b) => {
     const isCheckedA = checkHabit[a.id] || false;

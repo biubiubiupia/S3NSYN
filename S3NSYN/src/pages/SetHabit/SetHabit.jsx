@@ -14,7 +14,7 @@ function SetHabit() {
   const defaultHabits = [
     { id: 1, habit: "Write for 15 mins" },
     { id: 2, habit: "Meditate for 10 mins" },
-    { id: 3, habit: "Vacuum the floor" },
+    { id: 3, habit: "Eat 1 fruit" },
     { id: 4, habit: "Customize Habit" },
   ];
 

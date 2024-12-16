@@ -13,8 +13,8 @@ function RewardProgress({ rewards }) {
           <p className="reward__title">{reward?.title}</p>
           <CircularProgressbar
             className="reward__progress"
-            value={reward?.points / 10}
-            text={`${reward?.points / 10}%`}
+            value={(1000-reward?.points) / 10}
+            text={`${(1000-reward?.points) / 10}%`}
             styles={{
               root: { width: "4rem", height: "4rem" }, // Container size
               path: { strokeWidth: 8 }, // Reducing the stroke width reduces the circle radius

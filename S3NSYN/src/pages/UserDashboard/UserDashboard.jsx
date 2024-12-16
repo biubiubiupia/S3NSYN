@@ -41,10 +41,6 @@ function UserDashboard() {
     getAllRewards();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(rewards);
-  // }, [rewards]);
-
   return (
     <main className="page dashboard">
       <Header />
@@ -57,7 +53,7 @@ function UserDashboard() {
           GOALS
         </button>
       </div>
-      <HabitList></HabitList>
+      <HabitList getAllRewards={getAllRewards}></HabitList>
       <div className="dashboard__guide">
         <div className="dashboard__block">
           <span className="dashboard__color dashboard__color--past"></span>
