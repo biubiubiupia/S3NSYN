@@ -37,10 +37,6 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
     }
   }, [editingHabit]);
 
-  // useEffect(()=>{
-  //   console.log(goalId)
-  // },[])
-
   const handleCount = (e) => {
     const value = e.target.value;
 

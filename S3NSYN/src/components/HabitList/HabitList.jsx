@@ -7,7 +7,10 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 function HabitList({ getAllRewards }) {
   const token = localStorage.getItem("authToken");
   const [habits, setHabits] = useState([]);
-  const [checkHabit, setCheckHabit] = useState({});
+  const [checkHabit, setCheckHabit] = useState(() => {
+    const savedState = localStorage.getItem("checkHabit");
+    return savedState ? JSON.parse(savedState) : {};
+  });
 
   const getTodayHabits = async () => {
     try {
@@ -26,6 +29,10 @@ function HabitList({ getAllRewards }) {
   useEffect(() => {
     getTodayHabits();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("checkHabit", JSON.stringify(checkHabit));
+  }, [checkHabit]);
 
   const handleCheck = async (habitId) => {
     const isChecked = !checkHabit[habitId];
@@ -53,7 +60,7 @@ function HabitList({ getAllRewards }) {
     }
   };
 
-  console.log(habits)
+  // console.log(habits)
 
   const sortedHabits = [...habits].sort((a, b) => {
     const isCheckedA = checkHabit[a.id] || false;

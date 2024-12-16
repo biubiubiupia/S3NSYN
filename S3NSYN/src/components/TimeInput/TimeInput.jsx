@@ -34,10 +34,6 @@ function TimeInput({ className, handleTimeInput, index, defaultTime }) {
     handleTimeInput(updatedTime, index); 
   };
 
-  // useEffect(() => {
-  //   console.log(time)
-  // }, [time]); 
-
   return (
     <>
       <div className={`${className} time-input`}>
