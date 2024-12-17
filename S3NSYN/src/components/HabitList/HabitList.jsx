@@ -34,15 +34,17 @@ function HabitList({ getAllRewards }) {
     localStorage.setItem("checkHabit", JSON.stringify(checkHabit));
   }, [checkHabit]);
 
-  const handleCheck = async (habitId) => {
-    const isChecked = !checkHabit[habitId];
-
+  const handleCheck = async (habitId, alertTime) => {
+    const alertKey = `${habitId}_${alertTime.hour}:${alertTime.minute}${alertTime.ampm}`;
+    const isChecked = !checkHabit[alertKey];
+  
     setCheckHabit((prevState) => ({
       ...prevState,
-      [habitId]: isChecked,
+      [alertKey]: isChecked,
     }));
-
+  
     const action = isChecked ? "subtract" : "add";
+  
     try {
       await axios.put(
         `${BASE_URL}/rewards/${habitId}/update`,
@@ -59,25 +61,20 @@ function HabitList({ getAllRewards }) {
       console.error("Error updating reward points:", error);
     }
   };
-
-  // console.log(habits)
-
-  const sortedHabits = [...habits].sort((a, b) => {
-    const isCheckedA = checkHabit[a.id] || false;
-    const isCheckedB = checkHabit[b.id] || false;
-
-    if (isCheckedA === isCheckedB) {
-      const habitTimeA = new Date(
-        `${new Date().toLocaleDateString()} ${a.time}`
-      );
-      const habitTimeB = new Date(
-        `${new Date().toLocaleDateString()} ${b.time}`
-      );
-      return habitTimeA - habitTimeB;
-    }
-
-    return isCheckedA ? 1 : -1;
-  });
+  
+  const sortedHabits = habits
+  .flatMap(({ id, title, alert_times }) =>
+    (alert_times || []).map((alertTime) => ({
+      habitId: id,
+      title,
+      alertTime,
+    }))
+  )
+  .sort(
+    (a, b) =>
+      new Date(`2024-01-01 ${a.alertTime.hour}:${a.alertTime.minute} ${a.alertTime.ampm}`) -
+      new Date(`2024-01-01 ${b.alertTime.hour}:${b.alertTime.minute} ${b.alertTime.ampm}`)
+  );
 
   return (
     <section className="dashboard__section">
@@ -86,13 +83,18 @@ function HabitList({ getAllRewards }) {
       ) : (
         <ul className="habit-list__list">
           {sortedHabits.map((habit) => {
+            const alertTime = habit.alertTime;
             const habitTime = new Date(
-              `${new Date().toLocaleDateString()} ${habit.time}`
+              `${new Date().toLocaleDateString()} ${alertTime.hour}:${
+                alertTime.minute
+              } ${alertTime.ampm}`
             );
-            const isChecked = checkHabit[habit.id] || false;
+
+            const alertKey = `${habit.habitId}_${alertTime.hour}:${alertTime.minute}${alertTime.ampm}`; // Unique key
+            const isChecked = checkHabit[alertKey] || false;
             return (
               <li
-                key={habit.id}
+                key={alertKey}
                 className={`habit-list__habit ${
                   habitTime < Date.now()
                     ? "habit-list__habit--past"
@@ -100,12 +102,15 @@ function HabitList({ getAllRewards }) {
                 } ${isChecked ? "habit-list__habit--done" : ""}`}
               >
                 <p className="habit-list__habit-text">{habit.title}</p>
+                <p className="habit-list__habit-time">
+                  {alertTime.hour}:{alertTime.minute} {alertTime.ampm}
+                </p>
                 <label className="habit-list__checkbox checkbox__label">
                   <input
                     className="checkbox__input"
                     type="checkbox"
                     checked={isChecked}
-                    onChange={() => handleCheck(habit.id)}
+                    onChange={() => handleCheck(habit.habitId, habit.alertTime)}
                   ></input>
                   <span className="checkbox__span"></span>
                 </label>

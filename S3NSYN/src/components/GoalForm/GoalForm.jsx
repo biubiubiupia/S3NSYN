@@ -106,6 +106,8 @@ function GoalForm({ editingGoal, selectedGoal }) {
   const handleSave = async () => {
     if (!editingGoal) return;
 
+    console.log(reqBody)
+
     const isValuesUnchanged =
       reqBody.title === editingGoal.title &&
       reqBody.description === editingGoal.description &&
@@ -237,6 +239,7 @@ function GoalForm({ editingGoal, selectedGoal }) {
           <DatePicker
             className="goal-form__end"
             selected={endDate}
+            minDate={startDate}
             onChange={(date) => setEndDate(date)}
             placeholderText="Select a date"
           />

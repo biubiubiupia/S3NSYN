@@ -66,8 +66,13 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
   };
 
   const handleTimeInput = (time, index) => {
+    const formattedTime = {
+      ...time,
+      minute: time.minute.padStart(2, "0"), 
+    };
+  
     const updatedTimes = [...times];
-    updatedTimes[index] = time;
+    updatedTimes[index] = formattedTime;
     setTimes(updatedTimes);
   };
 
