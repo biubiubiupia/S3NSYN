@@ -1,11 +1,13 @@
 import "./HabitList.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
+// import { useRefresh } from "../../context/RefreshContext";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 function HabitList({ getAllRewards }) {
   const token = localStorage.getItem("authToken");
+  // const { shouldRefresh, resetRefresh } = useRefresh();
   const [habits, setHabits] = useState([]);
   const [checkHabit, setCheckHabit] = useState(() => {
     const savedState = localStorage.getItem("checkHabit");
@@ -37,14 +39,14 @@ function HabitList({ getAllRewards }) {
   const handleCheck = async (habitId, alertTime) => {
     const alertKey = `${habitId}_${alertTime.hour}:${alertTime.minute}${alertTime.ampm}`;
     const isChecked = !checkHabit[alertKey];
-  
+
     setCheckHabit((prevState) => ({
       ...prevState,
       [alertKey]: isChecked,
     }));
-  
+
     const action = isChecked ? "subtract" : "add";
-  
+
     try {
       await axios.put(
         `${BASE_URL}/rewards/${habitId}/update`,
@@ -61,20 +63,26 @@ function HabitList({ getAllRewards }) {
       console.error("Error updating reward points:", error);
     }
   };
-  
+
   const sortedHabits = habits
-  .flatMap(({ id, title, alert_times }) =>
-    (alert_times || []).map((alertTime) => ({
-      habitId: id,
-      title,
-      alertTime,
-    }))
-  )
-  .sort(
-    (a, b) =>
-      new Date(`2024-01-01 ${a.alertTime.hour}:${a.alertTime.minute} ${a.alertTime.ampm}`) -
-      new Date(`2024-01-01 ${b.alertTime.hour}:${b.alertTime.minute} ${b.alertTime.ampm}`)
-  );
+    .flatMap(({ id, title, alert_times }) =>
+      Array.isArray(alert_times)
+        ? alert_times.map((alertTime) => ({
+            habitId: id,
+            title,
+            alertTime,
+          }))
+        : []
+    )
+    .sort(
+      (a, b) =>
+        new Date(
+          `2024-01-01 ${a.alertTime.hour}:${a.alertTime.minute} ${a.alertTime.ampm}`
+        ) -
+        new Date(
+          `2024-01-01 ${b.alertTime.hour}:${b.alertTime.minute} ${b.alertTime.ampm}`
+        )
+    );
 
   return (
     <section className="dashboard__section">

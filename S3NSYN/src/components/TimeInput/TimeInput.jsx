@@ -29,7 +29,7 @@ function TimeInput({ className, handleTimeInput, index, defaultTime }) {
     } else {
       return;
     }
-
+    console.log(updatedTime);
     setTime(updatedTime);
     handleTimeInput(updatedTime, index); 
   };

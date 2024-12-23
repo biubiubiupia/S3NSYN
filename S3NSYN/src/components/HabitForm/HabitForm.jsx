@@ -1,6 +1,7 @@
 import "./HabitForm.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// import { useRefresh } from "../../context/RefreshContext";
 import axios from "axios";
 import TimeInput from "../TimeInput/TimeInput";
 import DateDropdown from "../DateDropdown/DateDropdown";
@@ -10,6 +11,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 function HabitForm({ goalId, selectedHabit, editingHabit }) {
   const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
+  // const { triggerRefresh } = useRefresh(); 
 
   const [count, setCount] = useState(editingHabit?.count || 0);
   const [frequency, setFrequency] = useState(editingHabit?.frequency || "");
@@ -41,7 +43,12 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
     const value = e.target.value;
 
     if (/^\d*$/.test(value)) {
-      setCount(value === "" ? 0 : parseInt(value, 10));
+      const newCount = value === "" ? 0 : parseInt(value, 10);
+      setCount(newCount);
+
+      console.log(times)
+  
+      // setTimes({})
       setSelectedDays([]);
     }
   };
@@ -67,8 +74,9 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
 
   const handleTimeInput = (time, index) => {
     const formattedTime = {
-      ...time,
+      hour: time.hour,
       minute: time.minute.padStart(2, "0"), 
+      ampm: time.ampm
     };
   
     const updatedTimes = [...times];
@@ -78,6 +86,13 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+  //   const isValid = times.every((time) => time && time !== "");
+  
+  //   if (!isValid) {
+  //   alert("Please fill in all the times.");
+  //   return; 
+  // }
 
     const reqBody = {
       title: e.target.title.value,
@@ -101,6 +116,7 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
             },
           }
         );
+        // triggerRefresh(); 
         navigate(`/goal/${editingHabit.goal_id}`);
       } else {
         await axios.post(`${BASE_URL}/habits`, reqBody, {
@@ -109,6 +125,7 @@ function HabitForm({ goalId, selectedHabit, editingHabit }) {
             "Content-Type": "application/json",
           },
         });
+        // triggerRefresh(); 
         navigate(`/goal${goalId}`);
       }
     } catch (error) {

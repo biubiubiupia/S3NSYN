@@ -11,7 +11,7 @@ function UserDashboard() {
   const token = localStorage.getItem("authToken");
   const navigate = useNavigate();
   const [rewards, setRewards] = useState([]);
-
+  
   const getAllRewards = async () => {
     try {
       const { data } = await axios.get(`${BASE_URL}/rewards`, {
