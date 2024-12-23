@@ -1,6 +1,6 @@
 import "./SetReward.scss";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import HeaderBack from "../../components/HeaderBack/HeaderBack";
 import Header from "../../components/Header/Header";
@@ -16,6 +16,7 @@ function SetReward() {
   const editingReward = location.state?.reward;
 
   const [selected, setSelected] = useState(null);
+  const [goal, setGoal] = useState({});
 
   const defaultRewards = [
     { id: 1, reward: "Take a Trip" },
@@ -64,6 +65,24 @@ function SetReward() {
     (reward) => reward.id === selected
   );
 
+  const getGoal = async () => {
+    try {
+      const { data } = await axios.get(`${BASE_URL}/goals/${editingReward?.goal}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setGoal(data);
+    } catch (error) {
+      console.error("Error fetching goal:", error);
+    }
+  };
+
+  useEffect(() => {
+    getGoal();
+  }, []);
+
   return (
     <main
       className={`page reward ${
@@ -74,7 +93,7 @@ function SetReward() {
       <h1 className="reward__header page__header">
         when you accomplish your goal.
       </h1>
-      <h2 className="reward__goal">{goalTitle}</h2>
+      <h2 className="reward__goal">{goalTitle || goal?.title}</h2>
 
       <div
         className={`${

@@ -12,8 +12,8 @@
     margin-bottom: 1rem;
   }
 
-  &__title{
-    color:$kiwi;
+  &__title {
+    color: $kiwi;
     text-transform: uppercase;
   }
 
@@ -46,5 +46,9 @@
   &__add {
     width: 100%;
     background-color: $berry;
+
+    &:hover {
+      background-color: $peach;
+    }
   }
 }

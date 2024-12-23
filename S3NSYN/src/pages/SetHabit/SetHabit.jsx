@@ -1,8 +1,7 @@
 import "./SetHabit.scss";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import HeaderBack from "../../components/HeaderBack/HeaderBack";
-import Header from "../../components/Header/Header";
 import HabitForm from "../../components/HabitForm/HabitForm";
 
 function SetHabit() {
@@ -26,7 +25,9 @@ function SetHabit() {
     defaultHabits.map((habit) => (
       <button
         key={habit.id}
-        className={`habit__name ${selected === habit.id ? "habit__name--active" : ""}`}
+        className={`habit__name ${
+          selected === habit.id ? "habit__name--active" : ""
+        }`}
         onClick={() => handleSelect(habit.id)}
       >
         {habit.habit}
@@ -34,15 +35,23 @@ function SetHabit() {
     ));
 
   return (
-    <main className={`page habit ${selected ? "" : "habit--peach"}`}>
-      {selected? <Header /> : <HeaderBack backto={`/goal/${goalId}`} />}
+    <main
+      className={`page habit ${goalTitle && !selected ? "habit--peach" : ""}`}
+    >
+      <HeaderBack backto={`/goal/${goalId}`} />
       <h1 className="habit__header page__title">set specific habits.</h1>
-      {goalTitle && <h1 className="habit__goal">{goalTitle}</h1>}
-      <div className={`habit__group ${selected ? "habit__group--hidden" : ""}`}>
-        {renderHabitButtons()}
-      </div>
+      {goalTitle && (
+        <>
+          <h1 className="habit__goal">{goalTitle}</h1>
+          <div
+            className={`habit__group ${selected ? "habit__group--hidden" : ""}`}
+          >
+            {renderHabitButtons()}
+          </div>
+        </>
+      )}
 
-      {selected && (
+      {(!goalTitle || selected) && (
         <HabitForm
           goalId={goalId}
           selectedHabit={selectedHabit}

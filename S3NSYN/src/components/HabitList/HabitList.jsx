@@ -1,13 +1,11 @@
 import "./HabitList.scss";
 import { useEffect, useState } from "react";
 import axios from "axios";
-// import { useRefresh } from "../../context/RefreshContext";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 function HabitList({ getAllRewards }) {
   const token = localStorage.getItem("authToken");
-  // const { shouldRefresh, resetRefresh } = useRefresh();
   const [habits, setHabits] = useState([]);
   const [checkHabit, setCheckHabit] = useState(() => {
     const savedState = localStorage.getItem("checkHabit");

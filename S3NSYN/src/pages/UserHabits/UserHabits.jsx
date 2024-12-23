@@ -68,9 +68,6 @@ function UserHabits() {
     getReward();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(reward);
-  // }, []);
 
   return (
     <main className="page habits">
