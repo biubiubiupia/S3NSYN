@@ -16,7 +16,7 @@ function SetReward() {
   const editingReward = location.state?.reward;
 
   const [selected, setSelected] = useState(null);
-  const [goal, setGoal] = useState({});
+  const [goal, setGoal] = useState();
 
   const defaultRewards = [
     { id: 1, reward: "Take a Trip" },
@@ -67,12 +67,15 @@ function SetReward() {
 
   const getGoal = async () => {
     try {
-      const { data } = await axios.get(`${BASE_URL}/goals/${editingReward?.goal}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const { data } = await axios.get(
+        `${BASE_URL}/goals/${editingReward?.goal_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       setGoal(data);
     } catch (error) {
       console.error("Error fetching goal:", error);
@@ -83,6 +86,14 @@ function SetReward() {
     getGoal();
   }, []);
 
+  const convertTimestampToDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return date.toLocaleString("en-US", options);
+  };
+
+  const endDate = convertTimestampToDate(goal?.end_time);
+
   return (
     <main
       className={`page reward ${
@@ -90,11 +101,13 @@ function SetReward() {
       }`}
     >
       {editingReward ? <HeaderBack backto={-1} /> : <Header />}
-      <h1 className="reward__header page__header">
-        when you accomplish your goal.
-      </h1>
-      <h2 className="reward__goal">{goalTitle || goal?.title}</h2>
-
+      <div className="reward__goal">
+        <h2 className="reward__header page__header">
+          when you accomplish your goal.
+        </h2>
+        <h1 className="reward__goal-title">{goalTitle || goal?.title}</h1>
+        <h3 className="reward__goal-endDate">by {endDate}</h3>
+      </div>
       <div
         className={`${
           selected || editingReward ? "reward__group--hidden" : "reward__group"
@@ -124,7 +137,6 @@ function SetReward() {
                 className="reward__input"
                 name="title"
                 id="title"
-                // onChange={handleInputChange(setTitle)}
                 placeholder={
                   selectedReward?.reward === "Customize Reward"
                     ? selectedReward.reward
@@ -148,7 +160,6 @@ function SetReward() {
                 className="reward__textarea"
                 name="description"
                 id="description"
-                // onChange={handleInputChange(setDescription)}
                 placeholder="Describe your feelings here."
                 defaultValue={editingReward?.description || ""}
               ></textarea>

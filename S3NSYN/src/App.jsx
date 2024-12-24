@@ -2,7 +2,6 @@ import "./App.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { RefreshProvider } from "./context/RefreshContext";
 import HomePage from "./pages/HomePage/HomePage";
 import Signup from "./pages/Signup/Signup";
 import Guide from "./pages/Guide/Guide";
@@ -23,24 +22,22 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <RefreshProvider>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/guide" element={<Guide />} />
-            <Route path="/first-goal" element={<NameGoals />} />
-            <Route path="/set-goal" element={<SetGoal />} />
-            <Route path="/set-habit" element={<SetHabit />} />
-            <Route path="/set-reward" element={<SetReward />} />
-            <Route path="/dashboard" element={<UserDashboard />} />
-            <Route path="/goals" element={<UserGoals />} />
-            <Route path="/goal/:goalId/edit" element={<EditGoal />} />
-            <Route path="/goal/:goalId" element={<UserHabits />} />
-            <Route path="/habit/:habitId/edit" element={<EditHabit />} />
-            <Route path="*" element={<HomePage />}></Route>
-          </Routes>
-        </RefreshProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/guide" element={<Guide />} />
+          <Route path="/first-goal" element={<NameGoals />} />
+          <Route path="/set-goal" element={<SetGoal />} />
+          <Route path="/set-habit" element={<SetHabit />} />
+          <Route path="/set-reward" element={<SetReward />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
+          <Route path="/goals" element={<UserGoals />} />
+          <Route path="/goal/:goalId/edit" element={<EditGoal />} />
+          <Route path="/goal/:goalId" element={<UserHabits />} />
+          <Route path="/habit/:habitId/edit" element={<EditHabit />} />
+          <Route path="*" element={<HomePage />}></Route>
+        </Routes>
       </BrowserRouter>
     </>
   );

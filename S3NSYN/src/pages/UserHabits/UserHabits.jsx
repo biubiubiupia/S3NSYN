@@ -58,7 +58,7 @@ function UserHabits() {
 
   useEffect(() => {
     getGoal();
-  }, []);
+  }, [habits]);
 
   useEffect(() => {
     getHabits();
@@ -66,7 +66,7 @@ function UserHabits() {
 
   useEffect(() => {
     getReward();
-  }, []);
+  }, [habits]);
 
 
   return (

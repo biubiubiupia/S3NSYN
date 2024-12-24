@@ -1,6 +1,6 @@
 import "./GoalForm.scss";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -30,7 +30,7 @@ function GoalForm({ editingGoal, selectedGoal }) {
 
   // For Edit Goal
   const [endDate, setEndDate] = useState(() =>
-    editingGoal?.end_time ? new Date(editingGoal.end_time) : null
+    editingGoal?.end_time ? new Date(editingGoal.end_time) : undefined
   );
   const isTimeHidden = editingGoal || frequency === "custom";
 
@@ -63,23 +63,14 @@ function GoalForm({ editingGoal, selectedGoal }) {
     title,
     description,
     start_time: startDate.getTime(),
-    end_time:
-      endTime instanceof Date && !isNaN(endTime) ? endTime.getTime() : null,
+    end_time: editingGoal ? endDate.getTime() : endTime.getTime(),
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title) {
-      alert("Please name your goal.");
-    }
-
-    if (!num) {
-      alert("Please select an end time.");
-    }
-
-    if (!endTime || isNaN(endTime.getTime())) {
-      alert("Please select a valid end date.");
+    if (!title || !num) {
+      alert("Please complete all required fields.");
       return;
     }
 
@@ -104,9 +95,10 @@ function GoalForm({ editingGoal, selectedGoal }) {
   };
 
   const handleSave = async () => {
-    if (!editingGoal) return;
-
-    console.log(reqBody)
+    if (!endDate || isNaN(endDate.getTime())) {
+      alert("Please select a valid end date.");
+      return;
+    }
 
     const isValuesUnchanged =
       reqBody.title === editingGoal.title &&
@@ -122,7 +114,7 @@ function GoalForm({ editingGoal, selectedGoal }) {
     try {
       const response = await axios.put(
         `${BASE_URL}/goals/${editingGoal.id}`,
-        { ...reqBody, end_time: endDate.getTime() },
+        reqBody,
         {
           headers: {
             Authorization: `Bearer ${token}`,

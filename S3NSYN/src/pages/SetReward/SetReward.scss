@@ -5,13 +5,24 @@
 .reward {
   background-color: $peach;
 
-  &--berry{
+  &--berry {
     background-color: $berry;
   }
 
-  &__goal{
+  &__goal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+
+  &__goal-title {
     text-transform: uppercase;
     color: $peach;
+  }
+
+  &__goal-endDate {
+
   }
 
   &__input {
@@ -35,7 +46,7 @@
     margin-bottom: 1rem;
     background-color: $banane;
 
-    &:hover{
+    &:hover {
       background-color: $tangerine;
       color: $banane;
     }
