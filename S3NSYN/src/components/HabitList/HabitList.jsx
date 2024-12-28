@@ -9,7 +9,15 @@ function HabitList({ getAllRewards }) {
   const [habits, setHabits] = useState([]);
   const [checkHabit, setCheckHabit] = useState(() => {
     const savedState = localStorage.getItem("checkHabit");
-    return savedState ? JSON.parse(savedState) : {};
+    const savedDate = localStorage.getItem("checkHabitDate");
+
+    if (savedDate === new Date().toLocaleDateString()) {
+      return savedState ? JSON.parse(savedState) : {};
+    } else {
+      localStorage.setItem("checkHabitDate", new Date().toLocaleDateString());
+      localStorage.setItem("checkHabit", JSON.stringify({}));
+      return {};
+    }
   });
 
   const getTodayHabits = async () => {
