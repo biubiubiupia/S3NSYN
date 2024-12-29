@@ -1,0 +1,49 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.habits {
+  background-color: $banane;
+
+  &__top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  &__title {
+    color: $kiwi;
+    text-transform: uppercase;
+  }
+
+  &__header {
+    margin: 0;
+    align-self: flex-start;
+  }
+
+  &__edit {
+    background-color: $berry;
+  }
+
+  &__group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__name {
+    width: 100%;
+    margin-bottom: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $peach;
+    }
+  }
+
+  &__add {
+    width: 100%;
+    background-color: $berry;
+  }
+}

@@ -1,0 +1,49 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.habit {
+  background-color: $berry;
+
+  &--peach {
+    background-color: $peach;
+  }
+
+  &__goal {
+    text-transform: uppercase;
+  }
+
+  &__group {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__name {
+    @extend .button-light;
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: $banane;
+
+    &:hover {
+      box-shadow: 5px 5px 5px $tangerine;
+    }
+
+    &--active {
+      @extend .button;
+      width: 100%;
+      margin-bottom: 1rem;
+      background-color: $tangerine;
+      color: $banane;
+    }
+  }
+
+  &__form{
+    width: 100%;
+  }
+}

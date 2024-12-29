@@ -1,0 +1,55 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.set-goal {
+  background-color: $berry;
+
+  &__logo {
+    align-self: flex-end;
+  }
+
+  &__header {
+    align-self: flex-start;
+  }
+
+}
+
+// .custom-select {
+//   color: $tangerine;
+//   position: relative;
+//   width: 100%;
+//   height: 4rem;
+//   border: 2px solid $tangerine;
+//   border-radius: 30px;
+//   background-color: $banane;
+//   cursor: pointer;
+// }
+
+// .custom-select__selected {
+//   padding: 10px;
+// }
+
+// .custom-select__options {
+//   position: absolute;
+//   top: 100%;
+//   left: 0;
+//   width: 100%;
+//   background-color: none;
+//   list-style: none;
+//   margin: 0;
+//   padding: 0;
+//   z-index: 10;
+// }
+
+// .custom-select__option {
+//   height: 3rem;
+//   padding: 10px;
+//   cursor: pointer;
+//   border: 1px solid $peach;
+//   border-radius: 20px;
+//   background-color: $banane;
+// }
+
+// .custom-select__option:hover {
+//   background-color: $peach;
+// }
