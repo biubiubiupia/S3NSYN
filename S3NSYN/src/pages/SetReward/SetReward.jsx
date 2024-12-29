@@ -86,6 +86,10 @@ function SetReward() {
     getGoal();
   }, []);
 
+  useEffect(() => {
+    console.log(editingReward);
+  }, []);
+
   const convertTimestampToDate = (timestamp) => {
     const date = new Date(timestamp);
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -93,7 +97,7 @@ function SetReward() {
   };
 
   const endDate = convertTimestampToDate(goal?.end_time);
-
+  
   return (
     <main
       className={`page reward ${
@@ -105,7 +109,12 @@ function SetReward() {
         <h2 className="reward__header page__header">
           when you accomplish your goal.
         </h2>
-        <h1 className="reward__goal-title">{goalTitle || goal?.title}</h1>
+        <button
+          className="reward__goal-title"
+          onClick={() => navigate(`/goal/${editingReward?.goal_id}`)}
+        >
+          {goalTitle || goal?.title}
+        </button>
         <h3 className="reward__goal-endDate">by {endDate}</h3>
       </div>
       <div
