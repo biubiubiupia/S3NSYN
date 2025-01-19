@@ -32,5 +32,5 @@ The S3NSYN front-end is built with React, utilizing `react-router-dom` for navig
 - Interactive goal-setting and reward visualization.
 - Clean, user-friendly interface.
 
-### Repository
+### API Repo
 [API Repo on GitHub](https://github.com/biubiubiupia/S3NSYN-API)
