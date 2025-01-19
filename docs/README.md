@@ -26,11 +26,12 @@ The S3NSYN front-end is built with React, utilizing `react-router-dom` for navig
 - SCSS
 - Axios
 - JWT for authentication
+- Figma for UI Design
 
 ### Key Features
 - Dynamic UI for tracking and managing habits.
 - Interactive goal-setting and reward visualization.
 - Clean, user-friendly interface.
 
-### API Repo
+### API Repository
 [API Repo on GitHub](https://github.com/biubiubiupia/S3NSYN-API)
