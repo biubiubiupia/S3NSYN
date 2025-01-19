@@ -1,7 +1,7 @@
 # S3NSYN: Habit and Goal Tracking App
 
 ## Project Overview
-S3NSYN is an intuitive habit-tracking app designed to help users cultivate meaningful routines and achieve personal milestones. With S3NSYN, users can set goals, track daily habits, and monitor their progress over time. This full-stack application was built entirely by me, from concept to deployment, and serves as a capstone project for the BrainStation Software Engineering bootcamp.
+S3NSYN is an intuitive habit-tracking app designed to help users cultivate meaningful routines and achieve personal milestones. With S3NSYN, users can set goals, track daily habits, and monitor their progress over time. This full-stack application was built independently, from concept to deployment, and serves as a capstone project for the BrainStation Software Engineering bootcamp.
 
 The project demonstrates proficiency in modern development tools and methodologies, with a React front-end, a Node.js and Express back-end, and a PostgreSQL database hosted on Render. The app prioritizes user experience, offering responsive design, seamless state management, and robust API integration.
 
