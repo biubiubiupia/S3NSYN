@@ -69,7 +69,7 @@ function GoalForm({ editingGoal, selectedGoal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !num) {
+    if (!title || (frequency !== "custom" && !num)) {
       alert("Please complete all required fields.");
       return;
     }

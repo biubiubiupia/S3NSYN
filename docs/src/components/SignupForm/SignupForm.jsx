@@ -120,6 +120,7 @@ function SignupForm() {
       }
     }
   };
+
   return (
     <form className="signup__form" onSubmit={handleSubmit}>
       <div className="signup__group">
