@@ -1,7 +1,5 @@
 import "./App.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import HomePage from "./pages/HomePage/HomePage";
 import Signup from "./pages/Signup/Signup";
 import Guide from "./pages/Guide/Guide";
@@ -15,8 +13,6 @@ import UserGoals from "./pages/UserGoals/UserGoals";
 import UserHabits from "./pages/UserHabits/UserHabits";
 import EditGoal from "./pages/EditGoal/EditGoal";
 import EditHabit from "./pages/EditHabit/EditHabit";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   return (
